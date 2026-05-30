@@ -1,0 +1,205 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+% Font options - Using standard Helvetica for maximum compatibility
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-10pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Sumukh Teja Vanamala} \\ \vspace{4pt}
+    \small +91 8374822724 $|$ \href{mailto:sunny.vanamala4@gmail.com}{sunny.vanamala4@gmail.com} $|$
+    \href{https://sumukhteja.pages.dev}{Portfolio} $|$
+    \href{https://github.com/sumukhteja}{GitHub} $|$
+    Hyderabad, India
+\end{center}
+
+%-----------SUMMARY-----------
+\section{Summary}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     Backend and cloud engineer with a track record of building end to end: RAG pipelines, local LLMs, a custom database engine, serverless AWS infrastructure, scraping and automation pipelines, and a search engine in Rust compiled to WebAssembly. Started at Accenture on C\#/.NET and Oracle SQL, went deep into Python, AWS and systems programming since. Open to backend and cloud roles in India.
+    }}
+ \end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {The Explorer}{Jun 2025 -- Present}
+      {Founder}{Hyderabad, India}
+      \resumeItemListStart
+        \resumeItem{Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR to extract text from PDFs and scans, and MCP servers that expose custom tools to models.}
+        \resumeItem{Built a custom page-based database engine tuned for high-concurrency retrieval, a Protocol Buffers service on FastAPI, JWT auth, and lower-level systems work in Go and C.}
+        \resumeItem{Built content and data automation pipelines covering multi-source ingestion and scraping, audio generation with TTS and STT (including low-latency live voice agents), and programmatic document generation with LaTeX.}
+        \resumeItem{Built interactive data visualisations using D3.js, Leaflet, Mapbox, Cesium and TopoJSON — choropleths, knowledge graphs, scrollytelling and custom relief-map rendering.}
+        \resumeItem{Shipped across web apps, Electron desktop tools, mobile via Capacitor, Chrome extensions and browser-based interactive experiences.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Flyberry Gourmet}{Sep 2025 -- Oct 2025}
+      {Automation Engineer --- Python $|$ Flask $|$ pandas $|$ Cloudflare $|$ Railway}{Hyderabad, India}
+      \resumeItemListStart
+        \resumeItem{Built a full-stack Purchase Order processing tool automating extraction of line items, pricing, delivery locations and HSN codes from PO PDFs, replacing manual data entry.}
+        \resumeItem{Developed a Flask REST API with endpoints for PDF upload, table extraction using pdfplumber, structured CSV generation, and ZIP-based bulk download, with error handling for invalid files and parsing failures.}
+        \resumeItem{Deployed a decoupled architecture with the frontend on Cloudflare Pages and backend on Railway, configuring CORS policies, gunicorn serving, and environment-based API URL management.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Accenture}{Jan 2022 -- Apr 2023}
+      {Software Engineering Associate --- .NET $|$ C\# $|$ Oracle SQL $|$ VBA}{Hyderabad, India}
+      \resumeItemListStart
+        \resumeItem{Maintained and enhanced a C\#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer.}
+        \resumeItem{Wrote and optimized Oracle SQL queries and PL/SQL stored procedures, tuning data retrieval across large policy tables to improve performance.}
+        \resumeItem{Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, automating data extraction and transformation to cut manual effort.}
+        \resumeItem{Performed RCA on production defects across the .NET front end and Oracle data layer, resolving recurring incidents via ServiceNow, documented using Jira.}
+        \resumeItem{Delivered changes in an Agile/Scrum model, collaborating with QA and business analysts through to UAT and release.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{Serverless Deploy Automation} $|$ \emph{Python, boto3, AWS Lambda, DynamoDB, API Gateway, S3, Cognito, IAM}}{Jan -- Feb 2026}
+          \resumeItemListStart
+            \resumeItem{Script-driven serverless deployment pipeline provisioning and wiring AWS resources with auto-incrementing environment naming. JWT auth via Cognito with RS256 verification using the JWKS endpoint and local key caching. Full teardown script deletes all provisioned resources in reverse dependency order.}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Knowledge Search --- Rust + WASM} $|$ \emph{Rust, Axum, Tokio, Tantivy, Rayon, WebAssembly, Cloudflare Workers}}{Nov 2025}
+          \resumeItemListStart
+            \resumeItem{Full-text search engine with async REST API, Rayon-powered concurrent indexing across CPU cores, and context-aware highlighted snippets. Compiled to WebAssembly on Cloudflare Workers for global deployment with zero cold starts.}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{UPSC RAG} $|$ \emph{Python, FAISS, Sentence Transformers, llama.cpp, PyMuPDF, Streamlit}}{Aug 2025}
+          \resumeItemListStart
+            \resumeItem{Fully local RAG pipeline answering UPSC queries from custom PDF material. Offline inference via TinyLlama and llama.cpp. Multi-turn Streamlit interface with conversation history fed into the prompt for grounded answers.}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{ISRO Interactive Documentary} $|$ \emph{D3.js, TopoJSON, GSAP, JavaScript}}{Nov -- Dec 2025}
+          \resumeItemListStart
+            \resumeItem{Interactive web documentary with a state-driven multi-stage flow, custom HTML5 video player, and timer-based narration. Interactive map of India via D3.js and TopoJSON with GSAP-driven animated transitions and dynamic info-card rendering.}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Python, JavaScript, Rust, Go, C, C\#/.NET, Oracle SQL, LaTeX} \\
+     \textbf{AI / ML}{: FAISS, Ollama, llama.cpp, Sentence Transformers, Neo4j, OCR, TTS/STT, MCP servers} \\
+     \textbf{Cloud}{: AWS (Lambda, DynamoDB, API Gateway, S3, Cognito, IAM), Cloudflare Workers, Docker, Railway} \\
+     \textbf{Backend}{: FastAPI, Flask, Axum, Tokio, Tantivy, Protocol Buffers, JWT/RS256, pdfplumber} \\
+     \textbf{Frontend \& Viz}{: React, D3.js, GSAP, Leaflet, Mapbox, Cesium, TopoJSON, Electron, Capacitor}
+    }}
+ \end{itemize}
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Cloud Computing 101} --- Amazon Web Services (AWS), May 2026 \\
+     \textbf{Azure AI Fundamentals (AI-900)} --- Microsoft, Jan 2023 \\
+     \textit{In progress: AWS Solutions Architect Associate, HashiCorp Terraform Associate}
+    }}
+ \end{itemize}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Vasavi College of Engineering}{Hyderabad, India}
+      {Bachelor of Engineering, Mechanical Engineering $|$ CGPA: 7.61/10}{2017 -- 2021}
+    \resumeSubheading
+      {Narayana Junior College}{Hyderabad, India}
+      {Intermediate (10+2) MPC $|$ 94.4\%}{2015 -- 2017}
+    \resumeSubheading
+      {Narayana Olympiad School}{Hyderabad, India}
+      {Class 10 $|$ GPA: 9.3/10}{2015}
+  \resumeSubHeadingListEnd
+
+%-----------LANGUAGES-----------
+\section{Spoken Languages}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     Telugu (Native), English (Native), Hindi (Native), French (Professional working proficiency)
+    }}
+ \end{itemize}
+
+\end{document}

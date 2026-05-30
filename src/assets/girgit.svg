@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 5 160 55" width="160" height="55">
+  <defs>
+    <linearGradient id="girgitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" /> <!-- Bright Emerald Green -->
+      <stop offset="100%" stop-color="#064e3b" /> <!-- Very Dark Green -->
+    </linearGradient>
+  </defs>
+  <!-- 
+    Reverted to Space Grotesk, which is loaded in the portfolio's index.html,
+    for a modern, geometric, and high-tech typography feel. 
+  -->
+  <text 
+    x="0" 
+    y="50" 
+    font-family="'Space Grotesk', sans-serif" 
+    font-weight="300" 
+    font-size="52" 
+    fill="url(#girgitGradient)" 
+    letter-spacing="-1.5px"
+  >
+    girgit.
+  </text>
+</svg>

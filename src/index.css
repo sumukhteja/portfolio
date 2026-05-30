@@ -1,0 +1,448 @@
+/* ============================================
+   DESIGNER B&W SYSTEM (REFINED)
+   ============================================ */
+
+@-webkit-keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+:root {
+  /* Default: Dark Mode (Refined Dark Gray) */
+  --bg: #1a1a1a;
+  --text: #ffffff;
+  --text-muted: #888888;
+  --border: #222222;
+  --accent: #ffffff;
+  --card-bg: #141414;
+  
+  --heading-start: #f8f9fa; /* Bright Silver */
+  --heading-end: #4a4a4a;   /* Deep Graphite */
+
+  --font-serif: 'Space Grotesk', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --selection-bg: #d1d1d1; /* Light Ash for Dark Mode */
+  --selection-text: #0d0d0d;
+}
+
+[data-theme='light'] {
+  --bg: #ffffff;
+  --text: #0d0d0d;
+  --text-muted: #666666;
+  --border: #e0e0e0;
+  --accent: #555555;
+  --card-bg: #fafafa;
+  --selection-bg: #333333; /* Dark Ash for Light Mode */
+  --selection-text: #ffffff;
+  
+  --heading-start: #7d7d7d; /* Medium Silver */
+  --heading-end: #0d0d0d;   /* Pitch Dark Grey */
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+::-moz-selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+/* ============================================
+   SCROLLYTELLING CORE
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  margin: 0;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+section {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#hero {
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: visible;
+}
+
+#hero .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  padding-left: 25vw;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+/* ============================================
+   THEME TOGGLE
+   ============================================ */
+
+.theme-toggle {
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  z-index: 9999;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ============================================
+   CONTENT STATIONS
+   ============================================ */
+
+.container {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: block;
+  opacity: 0.5;
+}
+
+.title-large {
+  font-size: clamp(3rem, 10vw, 8rem);
+  margin: 0;
+  line-height: 0.9;
+  background: radial-gradient(circle at top left, var(--heading-start), var(--heading-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.card-minimal {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  transition: opacity 0.3s ease;
+}
+
+.card-minimal:hover {
+  opacity: 0.7;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  margin-right: 8px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.hero-text {
+  text-align: left;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  opacity: 0.3;
+}
+
+.hero-swiper {
+  overflow: hidden !important;
+}
+
+.hero-swiper .swiper-pagination {
+  bottom: 50px !important;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: var(--text) !important;
+  opacity: 0.3;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+}
+
+/* Inline Logo Tweaks */
+.exp-inline-logo {
+  transition: all 0.3s ease;
+}
+
+[data-theme='dark'] .girgit-logo {
+  filter: none;
+}
+
+.flyberry-logo {
+  filter: none;
+  height: 52px !important; /* 30% increase from the base 40px */
+}
+[data-theme='dark'] .flyberry-logo {
+  filter: grayscale(1) invert(1) brightness(0.7);
+}
+
+.accenture-logo {
+  filter: none !important;
+}
+
+
+
+.education-bg-logo {
+  filter: grayscale(1);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.education-row:hover .education-bg-logo {
+  filter: none !important;
+  opacity: 0.3 !important;
+}
+
+.cert-item:hover .cert-logo-small {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Tooltips */
+.skill-badge-wrapper:hover .skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-10px);
+}
+
+.skill-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: max-content;
+  max-width: 250px;
+  background: #000;
+  border: 1px solid var(--border);
+  color: #ffffff; /* Forced white for contrast */
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  margin-bottom: 15px;
+}
+
+.skill-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  width: 1px;
+  height: 15px;
+  background: var(--border);
+}
+
+/* Experience Interaction */
+.interactive-exp-card {
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.interactive-exp-card:hover .experience-bg-logo {
+  filter: none !important;
+  opacity: 0.4 !important;
+}
+
+.experience-card.expanded {
+  background: transparent;
+}
+
+[data-theme='light'] .experience-card.expanded {
+  background: transparent;
+}
+
+
+/* ============================================
+   NAVBAR (DESIGNER MINIMAL)
+   ============================================ */
+
+.nav-designer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  padding: 40px 0;
+  background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+}
+
+.nav-container {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.nav-links-minimal {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-item {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  opacity: 1;
+}
+
+/* Certification Logos Theming */
+.cert-logo-small {
+  filter: grayscale(1) contrast(1.2);
+}
+
+[data-theme='dark'] .amazon-cert-logo,
+[data-theme='dark'] .terraform-cert-logo,
+[data-theme='dark'] .microsoft-cert-logo {
+  filter: grayscale(1) invert(1) brightness(1.7) contrast(1.2);
+}
+
+/* Enforce NO hover effects on Amazon logo in Dark Mode */
+[data-theme='dark'] .cert-item:hover .amazon-cert-logo {
+  filter: grayscale(1) invert(1) brightness(1.7) contrast(1.2) !important;
+  opacity: 0.8 !important;
+  transform: none !important;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+   ============================================ */
+@media (max-width: 768px) {
+  /* Tighter section spacing */
+  section { padding: 80px 0; }
+  
+  /* Compact UI Elements */
+  .theme-toggle { top: 20px; right: 20px; padding: 6px 12px; font-size: 0.6rem; }
+  .nav-designer { padding: 20px 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .nav-container { justify-content: space-between; }
+  .nav-logo { font-size: 1.2rem; }
+  .nav-links-minimal { gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+  .nav-item { font-size: 0.65rem; }
+
+  /* Fluid Typography Overrides */
+  .title-large { font-size: clamp(2.5rem, 12vw, 4rem); }
+  h3 { font-size: 1.5rem !important; }
+
+  /* Grid & Flex Refinements */
+  .grid { gap: 2rem; margin-top: 2rem; }
+  
+  /* Education specific responsive wrap */
+  .education-row > div { 
+    min-width: 100% !important; 
+    text-align: left !important; 
+  }
+}
