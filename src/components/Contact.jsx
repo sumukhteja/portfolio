@@ -142,6 +142,13 @@ export default function Contact({ theme }) {
               <a href="https://github.com/sumukhteja" target="_blank" rel="noreferrer" style={{fontSize: '1.2rem', opacity: 0.9, textDecoration: 'none'}}>GitHub</a>
               <img src={arrowSvg} className="nav-arrow" alt="" style={{width: '12px', opacity: 0.4}} />
             </div>
+
+            <span style={{opacity: 0.2}}>|</span>
+
+            <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+              <a href="https://linkedin.com/in/sumukhteja" target="_blank" rel="noreferrer" style={{fontSize: '1.2rem', opacity: 0.9, textDecoration: 'none'}}>LinkedIn</a>
+              <img src={arrowSvg} className="nav-arrow" alt="" style={{width: '12px', opacity: 0.4}} />
+            </div>
           </div>
 
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginTop: '3rem', maxWidth: '1000px'}}>
@@ -160,23 +167,7 @@ export default function Contact({ theme }) {
             ))}
           </div>
 
-          <div style={{marginTop: '4rem', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'flex-start'}}>
-            <a 
-              href="/resume.pdf" 
-              download="Sumukh_Teja_Vanamala_Resume.pdf"
-              className="tag" 
-              style={{
-                fontSize: '0.9rem', 
-                padding: '12px 24px', 
-                background: 'var(--text)',
-                color: 'var(--bg)',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                display: 'inline-block'
-              }}
-            >
-              Resume [PDF]
-            </a>
+          <div style={{marginTop: '4rem'}}>
             <p style={{fontSize: '0.8rem', opacity: 0.4, fontFamily: 'var(--font-mono)', margin: 0}}>
               Road No 1, Banjara Hills, Hyderabad
             </p>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import amazonLogo from '../assets/amazon.png';
 import microsoftLogo from '../assets/microsoft.png';
 
@@ -8,18 +7,6 @@ const certs = [
 ];
 
 export default function Certifications() {
-  const [activeCert, setActiveCert] = useState(null);
-
-  const openCert = () => {
-    setActiveCert("resume.pdf");
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeCert = () => {
-    setActiveCert(null);
-    document.body.style.overflow = 'auto';
-  };
-
   return (
     <section id="certifications">
       <div className="container" data-aos="fade-up">
@@ -29,10 +16,8 @@ export default function Certifications() {
           {certs.map((cert, idx) => (
             <div
               key={idx}
-              onClick={openCert}
               className="cert-item"
               style={{
-                cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -82,59 +67,6 @@ export default function Certifications() {
           AWS Solutions Architect Associate & Terraform Associate — in progress
         </p>
       </div>
-
-      {activeCert && (
-        <div
-          onClick={closeCert}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 10000,
-            background: 'rgba(0,0,0,0.95)',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '40px'
-          }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{
-              width: '100%',
-              maxWidth: '1000px',
-              height: '90%',
-              background: '#000',
-              borderRadius: '8px',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <button
-              onClick={closeCert}
-              style={{
-                position: 'absolute',
-                top: '-40px',
-                right: '0',
-                background: 'none',
-                border: 'none',
-                color: 'white',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.8rem',
-                cursor: 'pointer'
-              }}
-            >
-              CLOSE ✕
-            </button>
-            <iframe
-              src={`/${activeCert}#toolbar=0&navpanes=0&scrollbar=0`}
-              title="Credential Viewer"
-              style={{ width: '100%', height: '100%', border: 'none', borderRadius: '4px' }}
-            />
-          </div>
-        </div>
-      )}
     </section>
   );
 }
