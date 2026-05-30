@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import { annotation, annotationCalloutCircle } from 'd3-svg-annotation';
 import arrowSvg from '../assets/arrow.svg';
@@ -17,15 +17,15 @@ export default function Contact({ theme }) {
   const svgRef = useRef(null);
   const markerRef = useRef(null);
 
-  const updateAnnotation = () => {
+  const updateAnnotation = useCallback(() => {
     if (!mapInstanceRef.current || !svgRef.current) return;
     
     const map = mapInstanceRef.current;
     const myLocation = [78.4485, 17.4255];
     const point = map.project(myLocation);
     
-    const mainColor = "#ffffff";
-    const subColor = "#888888";
+    const mainColor = theme === 'light' ? "#000000" : "#ffffff";
+    const subColor = theme === 'light' ? "#555555" : "#888888";
 
     const annotations = [{
       note: { label: "Banjara Hills", title: "Residence", wrap: 150 },
@@ -50,11 +50,13 @@ export default function Contact({ theme }) {
     
     if (markerRef.current) {
       const el = markerRef.current.getElement();
-      el.style.background = "#ffffff";
-      el.style.border = "2px solid #000000";
-      el.style.boxShadow = "0 0 0 3px #ffffff, 0 0 10px rgba(255,255,255,0.5)";
+      el.style.background = theme === 'light' ? "#000000" : "#ffffff";
+      el.style.border = theme === 'light' ? "2px solid #ffffff" : "2px solid #000000";
+      el.style.boxShadow = theme === 'light' 
+        ? "0 0 0 3px #000000, 0 0 10px rgba(0,0,0,0.2)" 
+        : "0 0 0 3px #ffffff, 0 0 10px rgba(255,255,255,0.5)";
     }
-  };
+  }, [theme]);
 
   useEffect(() => {
     let map;
@@ -109,7 +111,7 @@ export default function Contact({ theme }) {
       clearInterval(pollInterval);
       if (mapInstanceRef.current) { mapInstanceRef.current.remove(); mapInstanceRef.current = null; }
     };
-  }, [theme]);
+  }, [theme, updateAnnotation]);
 
   return (
     <section id="contact">
