@@ -146,7 +146,7 @@ p {
 
 .theme-toggle {
   position: fixed;
-  bottom: 40px;
+  top: 40px;
   right: 40px;
   z-index: 9999;
   background: none;
