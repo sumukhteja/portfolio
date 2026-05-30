@@ -47,10 +47,10 @@ export default function Hero() {
                 </h1>
                 
                 <div style={{maxWidth: '900px', display: 'flex', flexDirection: 'column', gap: '2.5rem'}}>
-                  <p style={{ fontSize: '2rem', lineHeight: '1.2', fontWeight: '400' }}>
+                  <p className="hero-bio">
                     {slide.bio}
                   </p>
-                  <p style={{ fontSize: '1.4rem', opacity: 0.6, lineHeight: '1.6', fontWeight: '300' }}>
+                  <p className="hero-sec">
                     {slide.sec}
                   </p>
                 </div>

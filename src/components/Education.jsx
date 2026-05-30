@@ -42,7 +42,7 @@ export default function Education() {
               }}
             >
               <div style={{flex: '1.5', minWidth: '300px'}}>
-                <div style={{display: 'flex', alignItems: 'baseline', flexWrap: 'nowrap', gap: '15px', marginBottom: '0.2rem'}}>
+                <div style={{display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '15px', marginBottom: '0.2rem'}}>
                   <h3 style={{fontSize: '2rem', margin: 0}}>{edu.institution}</h3>
                   <span style={{fontSize: '1rem', opacity: 0.3, fontWeight: '400', whiteSpace: 'nowrap'}}>{edu.year}</span>
                 </div>

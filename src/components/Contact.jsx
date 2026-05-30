@@ -178,7 +178,7 @@ export default function Contact({ theme }) {
 
         <div style={{
           width: '100%', 
-          height: '400px', 
+          height: 'clamp(280px, 45vh, 400px)', 
           borderRadius: '12px', 
           overflow: 'hidden', 
           border: '1px solid var(--border)',

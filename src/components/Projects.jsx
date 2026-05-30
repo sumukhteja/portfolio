@@ -37,11 +37,7 @@ export default function Projects() {
       <div className="container" data-aos="fade-up">
         <span className="section-label">Works</span>
         <h2 className="title-large" style={{marginBottom: '5rem'}}>Projects</h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-          gap: '4rem'
-        }}>
+        <div className="grid">
           {projects.map((proj, idx) => (
             <div key={idx} className="card-minimal" style={{paddingBottom: '2rem'}}>
               <h3 style={{fontSize: '2rem', marginBottom: '0.5rem'}}>{proj.title}</h3>
