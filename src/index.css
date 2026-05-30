@@ -448,6 +448,7 @@ p {
   .nav-logo { font-size: 1.2rem; }
   .nav-links-minimal { gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
   .nav-item { font-size: 0.65rem; }
+  .hide-mobile { display: none !important; }
 
   /* Fluid Typography Overrides */
   .title-large { font-size: clamp(2.5rem, 12vw, 4rem); }

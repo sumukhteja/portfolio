@@ -6,10 +6,10 @@ export default function Navbar() {
   const navLinks = [
     { name: "Intro", href: "#hero" },
     { name: "Experience", href: "#experience" },
-    { name: "Skills", href: "#skills" },
+    { name: "Skills", href: "#skills", hideMobile: true },
     { name: "Projects", href: "#projects" },
-    { name: "Credentials", href: "#certifications" },
-    { name: "Academics", href: "#education" },
+    { name: "Credentials", href: "#certifications", hideMobile: true },
+    { name: "Academics", href: "#education", hideMobile: true },
     { name: "Connect", href: "#contact" }
   ];
 
@@ -55,7 +55,7 @@ export default function Navbar() {
         </a>
         <div className="nav-links-minimal">
           {navLinks.map((link, idx) => (
-            <a key={idx} href={link.href} className="nav-item">
+            <a key={idx} href={link.href} className={`nav-item ${link.hideMobile ? 'hide-mobile' : ''}`}>
               {link.name}
             </a>
           ))}

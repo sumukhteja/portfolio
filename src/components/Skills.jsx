@@ -72,9 +72,9 @@ export default function Skills() {
                   <div key={i} className="skill-badge-wrapper" style={{position: 'relative'}}>
                     <span
                       style={{
-                        fontSize: '1.2rem',
+                        fontSize: '0.85rem',
                         fontFamily: 'var(--font-mono)',
-                        padding: '8px 16px',
+                        padding: '6px 11px',
                         border: '1px solid var(--border)',
                         display: 'inline-block',
                         cursor: 'help'
