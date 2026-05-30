@@ -1,4 +1,4 @@
-# Sumukh Teja Vanamala
+# Sumukh Teja Vanamala - Portfolio website
 
 - I am a backend and cloud engineer based in Hyderabad, focused on building robust AI infrastructure, custom databases, and data automation pipelines.
 - After transitioning from mechanical engineering into software at Accenture, I began developing highly optimized cloud and backend solutions.
