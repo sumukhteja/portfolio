@@ -3,8 +3,8 @@ import india from '@svg-maps/india';
 import arrowSvg from '../assets/arrow.svg';
 
 const languages = [
-  { name: "Hindi", code: "in" },
   { name: "English", code: "us" },
+  { name: "Hindi", code: "in" },
   { name: "Telugu", code: "in" },
   { name: "French", code: "fr" }
 ];
