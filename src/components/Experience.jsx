@@ -18,7 +18,7 @@ const experiences = [
   },
   {
     company: "Flyberry Gourmet",
-    role: "Automation Engineer (Part-time) — Python | Flask | pandas | AWS",
+    role: "Automation Engineer (Freelance) — Python | Flask | pandas | AWS",
     period: "SEP 2025 — OCT 2025",
     logo: flyberryLogo,
     logoClass: "flyberry-logo",

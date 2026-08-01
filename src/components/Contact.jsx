@@ -1,129 +1,47 @@
-import { useEffect, useRef, useCallback } from 'react';
-import * as d3 from 'd3';
-import { annotation, annotationCalloutCircle } from 'd3-svg-annotation';
+import { useEffect, useRef, useState } from 'react';
+import india from '@svg-maps/india';
 import arrowSvg from '../assets/arrow.svg';
 
 const languages = [
-  { name: "Hindi", code: "in", level: "Native" },
-  { name: "English", code: "us", level: "Native" },
-  { name: "Telugu", code: "in", level: "Native" },
-  { name: "French", code: "fr", level: "Professional" }
+  { name: "Hindi", code: "in" },
+  { name: "English", code: "us" },
+  { name: "Telugu", code: "in" },
+  { name: "French", code: "fr" }
 ];
 
+// Approximate Hyderabad position within the @svg-maps/india viewBox (0 0 612 696),
+// derived from the Telangana path's bounding box + its lat/lng position within the state.
+const MARKER = { x: 219, y: 467 };
+const ZOOM_SCALE = 4.5;
+const VIEWBOX_CENTER = { x: 306, y: 348 };
+const ZOOM_TRANSFORM = `translate(${VIEWBOX_CENTER.x - ZOOM_SCALE * MARKER.x}, ${VIEWBOX_CENTER.y - ZOOM_SCALE * MARKER.y}) scale(${ZOOM_SCALE})`;
+
 export default function Contact({ theme }) {
-  const mapContainerRef = useRef(null);
-  const mapInstanceRef = useRef(null);
-  const svgRef = useRef(null);
-  const markerRef = useRef(null);
-
-  const updateAnnotation = useCallback(() => {
-    if (!mapInstanceRef.current || !svgRef.current) return;
-    
-    const map = mapInstanceRef.current;
-    const myLocation = [78.4485, 17.4255];
-    const point = map.project(myLocation);
-    
-    const mainColor = theme === 'light' ? "#000000" : "#ffffff";
-    const subColor = theme === 'light' ? "#555555" : "#888888";
-
-    const annotations = [{
-      note: { label: "Banjara Hills", title: "Residence", wrap: 150 },
-      dy: -60, dx: 100, x: point.x, y: point.y,
-      type: annotationCalloutCircle,
-      subject: { radius: 50, radiusPadding: 5 }
-    }];
-
-    const makeAnnotations = annotation()
-      .editMode(false)
-      .notePadding(15)
-      .type(annotationCalloutCircle)
-      .annotations(annotations);
-
-    const svg = d3.select(svgRef.current);
-    svg.selectAll(".annotation-group").data([0]).join("g").attr("class", "annotation-group").call(makeAnnotations);
-    
-    svg.selectAll(".connector, .subject").style("stroke", mainColor).style("stroke-width", "1px");
-    svg.selectAll(".note-line").style("stroke", mainColor).style("opacity", "0.3");
-    svg.selectAll(".annotation-note-title").style("fill", mainColor).style("font-size", "1rem");
-    svg.selectAll(".annotation-note-label").style("fill", subColor).style("font-size", "0.7rem");
-    
-    if (markerRef.current) {
-      const el = markerRef.current.getElement();
-      el.style.background = theme === 'light' ? "#000000" : "#ffffff";
-      el.style.border = theme === 'light' ? "2px solid #ffffff" : "2px solid #000000";
-      el.style.boxShadow = theme === 'light' 
-        ? "0 0 0 3px #000000, 0 0 10px rgba(0,0,0,0.2)" 
-        : "0 0 0 3px #ffffff, 0 0 10px rgba(255,255,255,0.5)";
-    }
-  }, [theme]);
+  const [zoomed, setZoomed] = useState(false);
+  const mapWrapRef = useRef(null);
 
   useEffect(() => {
-    let map;
-    let pollInterval;
-    let observer;
-    const hasZoomed = { current: false };
-    const myLocation = [78.4485, 17.4255];
+    const el = mapWrapRef.current;
+    if (!el) return;
 
-    const initMap = () => {
-      if (typeof window === 'undefined' || !window.mapboxgl || mapInstanceRef.current) return;
-      clearInterval(pollInterval);
-      window.mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setZoomed(true);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
 
-      if (!mapContainerRef.current) return;
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-      try {
-        map = new window.mapboxgl.Map({
-          container: mapContainerRef.current,
-          style: theme === 'light' ? 'mapbox://styles/mapbox/light-v11' : 'mapbox://styles/mapbox/dark-v11',
-          center: myLocation,
-          zoom: 3,
-          minZoom: 2,
-          maxZoom: 14,
-          interactive: true,
-          scrollZoom: false,
-          attributionControl: false,
-        });
-
-        map.addControl(new window.mapboxgl.NavigationControl(), 'top-right');
-        mapInstanceRef.current = map;
-
-        map.on('load', () => {
-          const el = document.createElement('div');
-          el.className = 'custom-marker';
-          el.style.width = '12px'; el.style.height = '12px';
-          el.style.background = '#ffffff'; el.style.borderRadius = '50%';
-          el.style.border = '2px solid #000000';
-          el.style.boxShadow = '0 0 0 3px #ffffff, 0 0 10px rgba(255,255,255,0.5)';
-
-          markerRef.current = new window.mapboxgl.Marker(el).setLngLat(myLocation).addTo(map);
-
-          map.on('move', updateAnnotation);
-          updateAnnotation();
-
-          observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting && !hasZoomed.current) {
-                hasZoomed.current = true;
-                map.flyTo({ center: myLocation, zoom: 13, duration: 3000, curve: 1.4, essential: true });
-              }
-            });
-          }, { threshold: 0.4 });
-          observer.observe(mapContainerRef.current);
-        });
-
-        setTimeout(() => map.resize(), 1000);
-      } catch (err) { console.error("Mapbox init failed:", err); }
-    };
-
-    if (window.mapboxgl) { initMap(); }
-    else { pollInterval = setInterval(() => { if (window.mapboxgl) initMap(); }, 200); }
-
-    return () => {
-      clearInterval(pollInterval);
-      if (observer) observer.disconnect();
-      if (mapInstanceRef.current) { mapInstanceRef.current.remove(); mapInstanceRef.current = null; }
-    };
-  }, [theme, updateAnnotation]);
+  const mainColor = theme === 'light' ? '#000000' : '#ffffff';
+  const markerRing = theme === 'light' ? '#ffffff' : '#000000';
+  const stateFill = theme === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)';
+  const stateStroke = theme === 'light' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)';
+  const highlightFill = theme === 'light' ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.14)';
 
   return (
     <section id="contact">
@@ -131,7 +49,7 @@ export default function Contact({ theme }) {
         <div style={{marginBottom: '5rem'}}>
           <span className="section-label">Connect</span>
           <h2 id="contact-title" className="title-large" style={{marginBottom: '2rem'}}>Connect with me</h2>
-          
+
           <div style={{display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center', marginTop: '2rem'}}>
             <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
               <span style={{fontSize: '1.5rem', opacity: 1, fontWeight: '600'}}>Sumukh Teja Vanamala</span>
@@ -162,15 +80,12 @@ export default function Contact({ theme }) {
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginTop: '3rem', maxWidth: '1000px'}}>
             {languages.map((lang, idx) => (
               <div key={idx} style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
-                <img 
-                  src={`https://flagcdn.com/${lang.code}.svg`} 
+                <img
+                  src={`https://flagcdn.com/${lang.code}.svg`}
                   alt={lang.name}
                   style={{width: '32px', height: '22px', borderRadius: '3px', objectFit: 'cover', opacity: 0.8}}
                 />
-                <div>
-                  <div style={{fontSize: '1.1rem', fontWeight: '500'}}>{lang.name}</div>
-                  <div style={{fontSize: '0.7rem', opacity: 0.5, fontFamily: 'var(--font-mono)'}}>{lang.level}</div>
-                </div>
+                <div style={{fontSize: '1.1rem', fontWeight: '500'}}>{lang.name}</div>
               </div>
             ))}
           </div>
@@ -182,16 +97,53 @@ export default function Contact({ theme }) {
           </div>
         </div>
 
-        <div style={{
-          width: '100%', 
-          height: 'clamp(280px, 45vh, 400px)', 
-          borderRadius: '12px', 
-          overflow: 'hidden', 
-          border: '1px solid var(--border)',
-          position: 'relative'
-        }}>
-          <div id="mapbox-container" ref={mapContainerRef} style={{height: '100%', width: '100%'}}></div>
-          <svg id="mapbox-overlay" ref={svgRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 10 }}></svg>
+        <div
+          ref={mapWrapRef}
+          style={{
+            width: '100%',
+            height: 'clamp(280px, 45vh, 400px)',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            border: '1px solid var(--border)',
+            position: 'relative'
+          }}
+        >
+          <svg viewBox={india.viewBox} style={{ width: '100%', height: '100%' }}>
+            <g
+              transform={zoomed ? ZOOM_TRANSFORM : 'translate(0, 0) scale(1)'}
+              style={{ transition: 'transform 3s cubic-bezier(0.16, 1, 0.3, 1)' }}
+            >
+              {india.locations.map((loc) => (
+                <path
+                  key={loc.id}
+                  d={loc.path}
+                  fill={loc.id === 'tg' ? highlightFill : stateFill}
+                  stroke={stateStroke}
+                  strokeWidth={0.75}
+                />
+              ))}
+              <circle
+                cx={MARKER.x}
+                cy={MARKER.y}
+                r={zoomed ? 2 : 4}
+                fill={mainColor}
+                stroke={markerRing}
+                strokeWidth={1}
+                style={{ transition: 'r 1s ease 2s' }}
+              />
+            </g>
+          </svg>
+          <div style={{
+            position: 'absolute',
+            bottom: '1rem',
+            left: '1rem',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.65rem',
+            opacity: 0.4,
+            letterSpacing: '0.05em'
+          }}>
+            HYDERABAD, TELANGANA
+          </div>
         </div>
       </div>
     </section>

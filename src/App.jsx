@@ -7,7 +7,6 @@ import Projects from './components/Projects';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -83,7 +82,6 @@ function App() {
         <Education />
         <Contact theme={theme} />
       </main>
-      <Footer />
     </div>
   );
 }
