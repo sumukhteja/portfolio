@@ -4,11 +4,10 @@ import { annotation, annotationCalloutCircle } from 'd3-svg-annotation';
 import arrowSvg from '../assets/arrow.svg';
 
 const languages = [
-  { name: "English", code: "us", level: "Professional" },
-  { name: "Telugu", code: "in", level: "Native" },
   { name: "Hindi", code: "in", level: "Native" },
-  { name: "French", code: "fr", level: "Professional" },
-  { name: "Spanish", code: "es", level: "Conversational" }
+  { name: "English", code: "us", level: "Native" },
+  { name: "Telugu", code: "in", level: "Native" },
+  { name: "French", code: "fr", level: "Professional" }
 ];
 
 export default function Contact({ theme }) {
@@ -61,6 +60,9 @@ export default function Contact({ theme }) {
   useEffect(() => {
     let map;
     let pollInterval;
+    let observer;
+    const hasZoomed = { current: false };
+    const myLocation = [78.4485, 17.4255];
 
     const initMap = () => {
       if (typeof window === 'undefined' || !window.mapboxgl || mapInstanceRef.current) return;
@@ -73,9 +75,9 @@ export default function Contact({ theme }) {
         map = new window.mapboxgl.Map({
           container: mapContainerRef.current,
           style: theme === 'light' ? 'mapbox://styles/mapbox/light-v11' : 'mapbox://styles/mapbox/dark-v11',
-          center: [78.4485, 17.4255],
-          zoom: 12,
-          minZoom: 5,
+          center: myLocation,
+          zoom: 3,
+          minZoom: 2,
           maxZoom: 14,
           interactive: true,
           scrollZoom: false,
@@ -86,7 +88,6 @@ export default function Contact({ theme }) {
         mapInstanceRef.current = map;
 
         map.on('load', () => {
-          const myLocation = [78.4485, 17.4255];
           const el = document.createElement('div');
           el.className = 'custom-marker';
           el.style.width = '12px'; el.style.height = '12px';
@@ -98,6 +99,16 @@ export default function Contact({ theme }) {
 
           map.on('move', updateAnnotation);
           updateAnnotation();
+
+          observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !hasZoomed.current) {
+                hasZoomed.current = true;
+                map.flyTo({ center: myLocation, zoom: 13, duration: 3000, curve: 1.4, essential: true });
+              }
+            });
+          }, { threshold: 0.4 });
+          observer.observe(mapContainerRef.current);
         });
 
         setTimeout(() => map.resize(), 1000);
@@ -109,6 +120,7 @@ export default function Contact({ theme }) {
 
     return () => {
       clearInterval(pollInterval);
+      if (observer) observer.disconnect();
       if (mapInstanceRef.current) { mapInstanceRef.current.remove(); mapInstanceRef.current = null; }
     };
   }, [theme, updateAnnotation]);
@@ -128,13 +140,7 @@ export default function Contact({ theme }) {
             <span style={{opacity: 0.2}}>|</span>
 
             <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <a href="tel:+918374822724" style={{fontSize: '1.2rem', opacity: 0.9, textDecoration: 'none'}}>+91 8374822724</a>
-            </div>
-            
-            <span style={{opacity: 0.2}}>|</span>
-            
-            <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-              <a href="mailto:sunny.vanamala4@gmail.com" style={{fontSize: '1.2rem', opacity: 0.9, textDecoration: 'none'}}>Email</a>
+              <a href="mailto:sumukh.teja.vanamala@outlook.com" style={{fontSize: '1.2rem', opacity: 0.9, textDecoration: 'none'}}>Email</a>
               <img src={arrowSvg} className="nav-arrow" alt="" style={{width: '12px', opacity: 0.4}} />
             </div>
 

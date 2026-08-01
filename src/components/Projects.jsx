@@ -6,25 +6,13 @@ const projects = [
     tags: ["Python", "boto3", "AWS Lambda", "DynamoDB", "API Gateway", "Cognito", "IAM", "S3"]
   },
   {
-    title: "02 / ISRO Interactive Documentary",
-    meta: "Data Visualisation",
-    desc: "Interactive web documentary on ISRO's history with a state-driven multi-stage flow, custom HTML5 video player, and timer-based narration. Interactive map of India via D3.js and TopoJSON with GSAP-driven animated transitions.",
-    tags: ["D3.js", "TopoJSON", "GSAP", "JavaScript", "CSS Keyframes"]
-  },
-  {
-    title: "03 / Knowledge Search — Rust + WASM",
-    meta: "Search Engine",
-    desc: "Full-text search engine in Rust using Axum + Tokio for async REST APIs and Tantivy for indexing, with Rayon-powered concurrent indexing. Compiled to WebAssembly on Cloudflare Workers for zero cold starts and global deployment.",
-    tags: ["Rust", "Axum", "Tokio", "Tantivy", "WebAssembly", "Cloudflare Workers"]
-  },
-  {
-    title: "04 / UPSC RAG",
+    title: "02 / NEET RAG",
     meta: "AI / Local LLM",
-    desc: "Fully local RAG pipeline to answer UPSC queries from custom PDF material. PyMuPDF for parsing, Sentence Transformers for embeddings, FAISS for vector search, and TinyLlama via llama.cpp for offline inference. Multi-turn Streamlit interface.",
+    desc: "Fully local RAG pipeline to answer NEET queries from custom PDF material. PyMuPDF for parsing, Sentence Transformers for embeddings, FAISS for vector search, and TinyLlama via llama.cpp for offline inference. Multi-turn Streamlit interface.",
     tags: ["Python", "FAISS", "Sentence Transformers", "llama.cpp", "PyMuPDF", "Streamlit"]
   },
   {
-    title: "05 / Frontend Showcase",
+    title: "03 / Frontend Showcase",
     meta: "Interactive Web",
     desc: "A collection of interactive front-end experiences and data visualisations built across the year — choropleths, knowledge graph renderers, scrollytelling pieces and custom relief-map rendering using Leaflet, Mapbox and Cesium.",
     tags: ["JavaScript", "Leaflet", "Mapbox", "Cesium", "D3.js", "GSAP"]

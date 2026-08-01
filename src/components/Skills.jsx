@@ -2,11 +2,7 @@ const skillGroups = [
   {
     category: "Languages",
     skills: [
-      { name: "Python", detail: "FastAPI, Flask, pandas, PyMuPDF, boto3" },
-      { name: "JavaScript", detail: "D3.js, GSAP, Leaflet, Mapbox, Cesium" },
-      { name: "Rust", detail: "Axum, Tokio, Tantivy, Rayon, WebAssembly" },
-      { name: "Go", detail: "Concurrency, goroutines, standard library" },
-      { name: "C", detail: "Low-level systems, memory management" },
+      { name: "Python", detail: "Flask, pandas, PyMuPDF, boto3" },
       { name: "C# / .NET", detail: "WinForms, .NET Framework, ASP.NET" },
       { name: "SQL", detail: "Oracle SQL, PL/SQL, complex joins, tuning" },
       { name: "LaTeX", detail: "Programmatic document generation" }
@@ -25,26 +21,21 @@ const skillGroups = [
     ]
   },
   {
-    category: "Cloud & Infrastructure",
+    category: "Cloud",
     skills: [
-      { name: "AWS", detail: "Lambda, DynamoDB, API Gateway, S3, Cognito, IAM, STS" },
-      { name: "Cloudflare", detail: "Workers, Pages, WASM deployment, zero cold starts" },
-      { name: "Docker", detail: "Containerization, gunicorn, production serving" },
-      { name: "Railway", detail: "Backend deployment, environment config" },
-      { name: "Protocol Buffers", detail: "gRPC-style service on FastAPI" },
-      { name: "JWT / Auth", detail: "RS256, JWKS, Cognito token verification" }
+      { name: "AWS", detail: "Lambda, API Gateway, DynamoDB, S3, Cognito, SQS, SNS, IAM" },
+      { name: "Terraform", detail: "Infrastructure as code" },
+      { name: "Azure", detail: "AI Fundamentals, cloud services" },
+      { name: "Cloudflare", detail: "Workers, Pages" },
+      { name: "Netlify", detail: "Static site and app deployment" },
+      { name: "Railway", detail: "Backend deployment, environment config" }
     ]
   },
   {
-    category: "Frontend & Visualisation",
+    category: "Backend",
     skills: [
-      { name: "React", detail: "Hooks, component architecture" },
-      { name: "D3.js", detail: "Choropleths, force graphs, TopoJSON maps" },
-      { name: "GSAP", detail: "Scroll-driven animation, transitions" },
-      { name: "Leaflet / Mapbox", detail: "Interactive geospatial maps" },
-      { name: "Cesium", detail: "3D globe and terrain rendering" },
-      { name: "Electron", detail: "Desktop app packaging" },
-      { name: "Capacitor", detail: "Mobile deployment from web stack" }
+      { name: "Node.js", detail: "REST APIs, server-side JavaScript" },
+      { name: "Flask", detail: "REST APIs, PDF/table extraction pipelines" }
     ]
   }
 ];

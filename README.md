@@ -1,7 +1,6 @@
 # Sumukh Teja Vanamala - Portfolio website
 
-- I am a backend and cloud engineer based in Hyderabad, focused on building robust AI infrastructure, custom databases, and data automation pipelines.
+- I am a backend and cloud engineer based in Hyderabad, focused on event-driven AWS architecture, RAG pipelines, and data automation.
 - After transitioning from mechanical engineering into software at Accenture, I began developing highly optimized cloud and backend solutions.
-- Recently, as the founder of The Explorer, I designed and deployed nearly 200 end-to-end projects spanning RAG pipelines, local LLMs, and high-concurrency systems.
-- I enjoy building scalable systems that bridge complex backend architectures with interactive frontend visualizations.
-- I am currently working towards my AWS Solutions Architect and Terraform certifications while seeking my next engineering challenge.
+- Currently Senior Developer at Girgit Inc, designing serverless AWS systems and AI infrastructure end to end.
+- AWS Certified Solutions Architect – Associate and HashiCorp Terraform Associate certified.

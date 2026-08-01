@@ -1,34 +1,31 @@
 import { useState } from 'react';
 import accentureLogo from '../assets/accenture-logo.png';
 import flyberryLogo from '../assets/flyberry.png';
-import ExplorerLogo from './ExplorerLogo';
+import girgitLogo from '../assets/girgit.svg';
 const experiences = [
   {
-    company: "The Explorer",
-    role: "Founder",
+    company: "Girgit Inc",
+    role: "Senior Developer",
     period: "JUN 2025 — PRESENT",
-    logo: null,
-    logoClass: "",
-    explorerLogo: true,
-    summary: "Built the AI layer, backend infrastructure, automation pipelines, and interactive data visualisations end to end.",
+    logo: girgitLogo,
+    logoClass: "girgit-logo",
+    summary: "Built event-driven AWS architecture, RAG pipelines and automation infrastructure end to end.",
     points: [
-      "Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR to extract text from PDFs and scans, and MCP servers that expose custom tools to models.",
-      "Built a custom page-based database engine tuned for high-concurrency retrieval, a Protocol Buffers service on FastAPI, JWT auth, and lower-level work in Go and C.",
-      "Built content and data automation pipelines covering multi-source ingestion and scraping, audio generation with TTS and STT including low-latency live voice agents, and programmatic document generation with LaTeX.",
-      "Built interactive data visualisations using D3.js, Leaflet, Mapbox, Cesium and TopoJSON — choropleths, knowledge graphs, scrollytelling and custom relief-map rendering.",
-      "Shipped across web apps, Electron desktop tools, mobile via Capacitor, Chrome extensions and browser-based interactive experiences."
+      "AWS Architecture: Designed event-driven serverless systems on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out for fault-tolerant, asynchronous processing at scale.",
+      "AI & Search: Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR and MCP servers exposing custom tools to models.",
+      "Automation & Voice Agents: Built content and data automation pipelines covering multi-source ingestion and scraping, and audio generation with TTS and STT, including low-latency live voice agents."
     ]
   },
   {
     company: "Flyberry Gourmet",
-    role: "Automation Engineer — Python | Flask | pandas | Cloudflare | Railway",
+    role: "Automation Engineer (Part-time) — Python | Flask | pandas | AWS",
     period: "SEP 2025 — OCT 2025",
     logo: flyberryLogo,
     logoClass: "flyberry-logo",
     summary: "Built a full-stack Purchase Order processing tool that automates extraction of line items, pricing, delivery locations and HSN codes from PO PDFs.",
     points: [
       "Developed a Flask REST API with endpoints for PDF upload, table extraction using pdfplumber, structured CSV generation, and ZIP-based bulk download, with error handling for invalid files and parsing failures.",
-      "Deployed a decoupled architecture with the frontend on Cloudflare Pages and backend on Railway, configuring CORS policies, gunicorn serving, and environment-based API URL management for production readiness.",
+      "Deployed the frontend on S3 with CloudFront and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management.",
       "Replaced manual data entry for the procurement team, saving hours of effort per week."
     ]
   },
@@ -40,10 +37,9 @@ const experiences = [
     logoClass: "accenture-logo",
     summary: "Maintained and enhanced a C#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer.",
     points: [
+      "Performed RCA on production defects across the .NET front end and Oracle data layer, resolving recurring incidents via ServiceNow, documented using Jira. Delivered changes in an Agile/Scrum model, collaborating with QA and business analysts through to UAT and release.",
       "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures, tuning data retrieval across large policy tables to improve performance.",
-      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, automating data extraction and transformation to cut manual effort.",
-      "Performed RCA on production defects across the .NET front end and Oracle data layer, resolving recurring incidents via ServiceNow, documented using Jira.",
-      "Delivered changes in an Agile/Scrum model, collaborating with QA and business analysts to translate requirements through to UAT and release."
+      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, automating data extraction and transformation to cut manual effort."
     ]
   }
 ];
@@ -79,9 +75,7 @@ export default function Experience() {
             >
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 1}}>
                 <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
-                  {exp.explorerLogo ? (
-                    <ExplorerLogo size={40} />
-                  ) : exp.logo ? (
+                  {exp.logo ? (
                     <img
                       src={exp.logo}
                       className={`exp-inline-logo ${exp.logoClass || ''}`}

@@ -1,8 +1,10 @@
 import amazonLogo from '../assets/amazon.png';
 import microsoftLogo from '../assets/microsoft.png';
+import terraformLogo from '../assets/terraform.png';
 
 const certs = [
-  { name: "Cloud Computing 101", issuer: "Amazon Web Services (AWS)", logo: amazonLogo, logoClass: "amazon-cert-logo", date: "MAY 2026" },
+  { name: "AWS Certified Solutions Architect — Associate (SAA-C03)", issuer: "Amazon Web Services (AWS)", logo: amazonLogo, logoClass: "amazon-cert-logo", date: "AUG 2026" },
+  { name: "HashiCorp Certified: Terraform Associate", issuer: "HashiCorp", logo: terraformLogo, logoClass: "terraform-cert-logo", date: "AUG 2026" },
   { name: "Azure AI Fundamentals (AI-900)", issuer: "Microsoft", logo: microsoftLogo, logoClass: "microsoft-cert-logo", date: "JAN 2023" }
 ];
 
@@ -64,7 +66,7 @@ export default function Certifications() {
           ))}
         </div>
         <p style={{marginTop: '2rem', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', opacity: 0.4}}>
-          AWS Solutions Architect Associate & Terraform Associate — in progress
+          Machine Learning Specialization, Stanford Online (Coursera) — ongoing
         </p>
       </div>
     </section>

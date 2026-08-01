@@ -7,13 +7,13 @@ const slides = [
   {
     label: "Identity / 01",
     title: ["Backend &", "Cloud Engineer."],
-    bio: "Sumukh Teja Vanamala. Founded The Explorer, built close to 200 projects in a year — backend, cloud and AI, end to end. Ex-Accenture.",
+    bio: "Sumukh Teja Vanamala. Senior Developer at Girgit Inc, working across backend, cloud and AI end to end. Ex-Accenture.",
     sec: "Open to backend and cloud roles. On-site, hybrid or remote."
   },
   {
     label: "Focus / 02",
     title: ["Builder of", "Systems."],
-    bio: "RAG pipelines, local LLMs, a custom database engine, serverless AWS infrastructure, and a search engine in Rust compiled to WebAssembly.",
+    bio: "Event-driven serverless AWS infrastructure, RAG pipelines over large document corpora, and scraping and automation pipelines.",
     sec: "I learn by building and shipping, not by reading theory."
   },
   {

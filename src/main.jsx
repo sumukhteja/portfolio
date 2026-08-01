@@ -15,7 +15,7 @@ console.log(
   "color: #ffffff; background: #000000; font-size: 24px; font-family: 'Space Grotesk', sans-serif; font-weight: bold; padding: 10px 20px; border: 1px solid #333;"
 );
 console.log(
-  "%cGive me a call @ +91 83748 22724 \nor email me @ sunny.vanamala4@gmail.com",
+  "%cEmail me @ sumukh.teja.vanamala@outlook.com",
   "color: #ffffff; font-size: 14px; font-family: 'JetBrains Mono', monospace; font-weight: bold; margin-top: 10px; display: block; line-height: 1.5;"
 );
 console.log(
