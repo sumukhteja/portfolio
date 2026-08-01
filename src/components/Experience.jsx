@@ -6,27 +6,26 @@ const experiences = [
   {
     company: "Girgit Inc",
     role: "Senior Developer",
-    period: "JUN 2025 — PRESENT",
+    period: "AUG 2023 — PRESENT",
     logo: girgitLogo,
     logoClass: "girgit-logo",
     summary: "Built event-driven AWS architecture, RAG pipelines and automation infrastructure end to end.",
     points: [
-      "AWS Architecture: Designed event-driven serverless systems on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out for fault-tolerant, asynchronous processing at scale.",
-      "AI & Search: Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR and MCP servers exposing custom tools to models.",
-      "Automation & Voice Agents: Built content and data automation pipelines covering multi-source ingestion and scraping, and audio generation with TTS and STT, including low-latency live voice agents."
+      "Designed and built from scratch the event-driven serverless backbone of an early-stage product on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out for fault-tolerant, asynchronous processing at scale.",
+      "Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR and MCP servers exposing custom tools to models.",
+      "Built content and data automation pipelines covering multi-source ingestion and scraping, and audio generation with TTS and STT, including low-latency live voice agents."
     ]
   },
   {
     company: "Flyberry Gourmet",
     role: "Automation Engineer (Freelance) — Python | Flask | pandas | AWS",
-    period: "SEP 2025 — OCT 2025",
+    period: "JUN 2023 — JUL 2023",
     logo: flyberryLogo,
     logoClass: "flyberry-logo",
-    summary: "Built a full-stack Purchase Order processing tool that automates extraction of line items, pricing, delivery locations and HSN codes from PO PDFs.",
+    summary: "Built a full-stack PO processing tool handling ~100 purchase orders a week, cutting ~20 hours of manual data entry a week.",
     points: [
-      "Developed a Flask REST API with endpoints for PDF upload, table extraction using pdfplumber, structured CSV generation, and ZIP-based bulk download, with error handling for invalid files and parsing failures.",
-      "Deployed the frontend on S3 with CloudFront and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management.",
-      "Replaced manual data entry for the procurement team, saving hours of effort per week."
+      "Flask REST API with pdfplumber extracting line items, pricing and HSN codes from PO PDFs to structured CSV, with ZIP-based bulk download and error handling for invalid files and parsing failures.",
+      "Deployed the frontend on S3 with CloudFront and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management."
     ]
   },
   {
@@ -37,9 +36,8 @@ const experiences = [
     logoClass: "accenture-logo",
     summary: "Maintained and enhanced a C#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer.",
     points: [
-      "Performed RCA on production defects across the .NET front end and Oracle data layer, resolving recurring incidents via ServiceNow, documented using Jira. Delivered changes in an Agile/Scrum model, collaborating with QA and business analysts through to UAT and release.",
-      "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures, tuning data retrieval across large policy tables to improve performance.",
-      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, automating data extraction and transformation to cut manual effort."
+      "Performed RCA on production defects across the .NET front end and Oracle data layer, delivering changes in an Agile/Scrum model and collaborating with QA and business analysts through to UAT and release.",
+      "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures across large policy tables, and built Excel-based reporting and reconciliation tools using VBA macros and Power Query, saving ~2 hours of manual effort daily."
     ]
   }
 ];

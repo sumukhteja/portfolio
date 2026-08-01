@@ -5,7 +5,7 @@ const skillGroups = [
   },
   {
     category: "AI & ML",
-    skills: ["RAG Pipelines", "Ollama / llama.cpp", "Sentence Transformers", "Neo4j", "OCR", "TTS / STT", "MCP Servers"]
+    skills: ["RAG Pipelines", "FAISS", "Ollama / llama.cpp", "Sentence Transformers", "Neo4j", "OCR", "TTS / STT", "MCP Servers"]
   },
   {
     category: "Cloud",
@@ -13,7 +13,11 @@ const skillGroups = [
   },
   {
     category: "Backend",
-    skills: ["Node.js", "Flask"]
+    skills: ["Python", "Node.js", "Flask"]
+  },
+  {
+    category: "Tools",
+    skills: ["Git", "GitHub", "VS Code", "Postman", "Jira", "ServiceNow", "Linux/Bash"]
   }
 ];
 
