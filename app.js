@@ -240,8 +240,41 @@
     if (e.key === 'Enter' && pItems[pSel]) { open(pItems[pSel].name); hidePalette(); }
   });
 
+  /* ---------- splash ---------- */
+  function runSplash() {
+    const splash = $('#splash'), fill = $('#splash-fill'), log = $('#splash-log');
+    if (!splash) return;
+
+    const steps = [
+      'Starting workspace\u2026',
+      ...files.map(f => 'Loading content/' + f.name + '.js'),
+      'Ready.'
+    ];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tick = reduced ? 40 : 150;
+    let i = 0, timer;
+
+    const finish = () => {
+      clearInterval(timer);
+      document.removeEventListener('keydown', finish);
+      splash.removeEventListener('click', finish);
+      splash.classList.add('done');
+      setTimeout(() => splash.remove(), 500);
+    };
+
+    timer = setInterval(() => {
+      log.textContent = steps[i];
+      fill.style.width = Math.round(((i + 1) / steps.length) * 100) + '%';
+      if (++i >= steps.length) setTimeout(finish, reduced ? 80 : 320);
+    }, tick);
+
+    splash.addEventListener('click', finish);
+    document.addEventListener('keydown', finish);
+  }
+
   /* ---------- boot ---------- */
   renderTree();
   const first = files.find(f => f.open) || files[0];
   if (first) open(first.name); else render();
+  runSplash();
 })();

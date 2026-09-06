@@ -160,3 +160,29 @@ kbd{font:11px var(--mono);background:#333;border:1px solid #4a4a4a;border-bottom
   .minimap{display:none}
   .titlebar .title{font-size:11px}
 }
+
+/* ---------- Splash / loader ---------- */
+.splash{
+  position:fixed;inset:0;z-index:50;background:#1e1e1e;
+  display:grid;place-items:center;text-align:center;
+  /* safety net: fades itself out even if JS never runs */
+  animation:splashFail .5s ease 3.4s forwards;
+}
+.splash-inner{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px}
+.splash-mark{
+  font:600 44px/1 var(--mono);color:var(--blue);letter-spacing:-2px;
+  animation:splashPulse 1.6s ease-in-out infinite;
+}
+.splash-name{font-size:22px;font-weight:300;color:#e6e6e6;letter-spacing:.02em}
+.splash-role{font-size:12px;color:#8c8c8c;letter-spacing:.14em;text-transform:uppercase}
+.splash-bar{width:220px;max-width:60vw;height:2px;background:#333;margin-top:16px;overflow:hidden}
+.splash-bar i{display:block;width:0;height:100%;background:var(--accent);transition:width .18s linear}
+.splash-log{font:11px/1.4 var(--mono);color:#6f6f6f;min-height:16px}
+.splash-skip{font-size:10px;color:#4a4a4a;letter-spacing:.08em;margin-top:14px}
+.splash.done{opacity:0;visibility:hidden;animation:none;transition:opacity .45s ease,visibility 0s .45s}
+@keyframes splashPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes splashFail{to{opacity:0;visibility:hidden}}
+@media (prefers-reduced-motion:reduce){
+  .splash-mark{animation:none}
+  .splash-bar i{transition:none}
+}
