@@ -1,0 +1,8 @@
+{
+  "name": "sumukhteja-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p dist && cp -R index.html static content _redirects dist/"
+  }
+}
