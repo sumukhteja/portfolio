@@ -239,6 +239,13 @@ def live():
     )
 
 
+@app.get("/resume")
+def resume():
+    """The actual resume PDF, opened from the workbench status bar."""
+    return send_from_directory(app.static_folder, "resume.pdf",
+                               mimetype="application/pdf", as_attachment=False)
+
+
 @app.get("/robots.txt")
 @app.get("/llms.txt")
 def passthrough():

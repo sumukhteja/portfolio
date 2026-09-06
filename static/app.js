@@ -251,7 +251,7 @@ window.PORTFOLIO = { files: [], open: null };
     if (e.key === 'Enter' && pItems[pSel]) { open(pItems[pSel].name); hidePalette(); }
   });
 
-  /* ---------- terminal panel (real API traffic) ---------- */
+  /* ---------- terminal panel (mock output) ---------- */
   const term = () => $('#panel-terminal');
   function log(text, cls = '') {
     const el = document.createElement('div');
@@ -261,57 +261,8 @@ window.PORTFOLIO = { files: [], open: null };
     term().scrollTop = term().scrollHeight;
   }
 
-  async function api(path, opts) {
-    const t0 = performance.now();
-    const method = (opts && opts.method) || 'GET';
-    try {
-      const res = await fetch(path, opts);
-      const ms = Math.round(performance.now() - t0);
-      const body = await res.json();
-      const cls = res.ok ? 'ok' : 'err';
-      log(`<span class="tm">${method}</span> ${esc(path)} <span class="${cls}">${res.status}</span> <span class="dim">· ${ms}ms</span>`);
-      return { ok: res.ok, status: res.status, body };
-    } catch (err) {
-      log(`<span class="tm">${method}</span> ${esc(path)} <span class="err">FAILED</span> <span class="dim">· ${esc(String(err))}</span>`);
-      throw err;
-    }
-  }
-
-  const ENDPOINTS = [
-    ['GET', '/api/health', 'server status, port and section count'],
-    ['GET', '/api/content', 'every section, in manifest order'],
-    ['GET', '/api/content/about.md', 'one section by name'],
-    ['GET', '/api/profile', 'contact.json, parsed'],
-    ['POST', '/api/contact', 'validates and appends to data/messages.jsonl'],
-  ];
-
-  function buildApiPanel() {
-    $('#panel-api').innerHTML = ENDPOINTS.map(([m, path, desc]) => `
-      <div class="ep ${m === 'GET' ? 'runnable' : ''}" ${m === 'GET' ? `data-run="${path}"` : ''}>
-        <span class="ep-m ${m.toLowerCase()}">${m}</span>
-        <span class="ep-p">${path}</span>
-        <span class="ep-d">${desc}</span>
-        ${m === 'GET' ? '<span class="ep-go">run ▸</span>' : '<span class="ep-go dim">curl</span>'}
-      </div>`).join('') +
-      `<div class="ep-note">Flask serves this page and the API from <code>app.py</code>. GET rows run for real — the response prints in TERMINAL.</div>`;
-
-    $('#panel-api').querySelectorAll('[data-run]').forEach(row =>
-      row.addEventListener('click', async () => {
-        showPanel('terminal');
-        try {
-          const r = await api(row.dataset.run);
-          const json = JSON.stringify(r.body);
-          log(`<span class="dim">${esc(json.length > 240 ? json.slice(0, 240) + ' …' : json)}</span>`);
-        } catch (_) { /* already logged */ }
-      }));
-  }
-
-  function showPanel(which) {
+  function showPanel() {
     $('#panel').classList.remove('hidden');
-    document.querySelectorAll('.ptab').forEach(t =>
-      t.classList.toggle('active', t.dataset.panel === which));
-    $('#panel-terminal').classList.toggle('hidden', which !== 'terminal');
-    $('#panel-api').classList.toggle('hidden', which !== 'api');
     $('#btn-panel').classList.add('on');
     if (active) drawMinimap(byName[active].content.replace(/\n$/, '').split('\n'));
   }
@@ -319,14 +270,12 @@ window.PORTFOLIO = { files: [], open: null };
     $('#panel').classList.add('hidden');
     $('#btn-panel').classList.remove('on');
   }
-  document.querySelectorAll('.ptab').forEach(t =>
-    t.addEventListener('click', () => showPanel(t.dataset.panel)));
   $('#panel-close').addEventListener('click', hidePanel);
   $('#btn-panel').addEventListener('click', () =>
-    $('#panel').classList.contains('hidden') ? showPanel('terminal') : hidePanel());
+    $('#panel').classList.contains('hidden') ? showPanel() : hidePanel());
 
-  // golive.js drives the terminal when "Go Live" is clicked
-  PORTFOLIO.term = { show: () => showPanel('terminal'), log };
+  // golive.js drives the terminal
+  PORTFOLIO.term = { show: showPanel, log };
 
   /* ---------- splash ---------- */
   function runSplash(steps) {
@@ -367,24 +316,22 @@ window.PORTFOLIO = { files: [], open: null };
 
   /* ---------- boot ---------- */
   (async () => {
-    log('<span class="dim">$</span> python app.py', 'cmd');
-    log('<span class="dim"> * Flask dev server — serving content/ on port 5500</span>');
-
     let data;
     try {
-      const res = await api('/api/content');
+      const res = await fetch('/api/content');
       if (!res.ok) throw new Error(`GET /api/content → HTTP ${res.status}`);
-      data = res.body;
+      data = await res.json();
     } catch (err) { bootError(err); return; }
 
     files = data.files || [];
     PORTFOLIO.files = files;
     byName = Object.fromEntries(files.map(f => [f.name, f]));
 
-    log(`<span class="dim">   loaded ${files.length} sections · ${files.reduce((n, f) => n + f.lines, 0)} lines</span>`);
+    log('<span class="dim">$</span> python app.py', 'cmd');
+    log(` * Serving <span class="ok">${files.length} sections</span> from content/`, 'dim');
+    log(' * Running on http://127.0.0.1:5500', 'dim');
     renderTree();
     buildContactPanel();
-    buildApiPanel();
     const first = byName[data.open] || files[0];
     if (first) open(first.name); else render();
 

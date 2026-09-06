@@ -108,12 +108,11 @@
     <div class="panel hidden" id="panel">
       <div class="panel-tabs">
         <button class="ptab active" data-panel="terminal">TERMINAL</button>
-        <button class="ptab" data-panel="api">API</button>
         <span class="panel-spacer"></span>
+        <span class="panel-shell">bash</span>
         <button class="panel-close" id="panel-close" aria-label="Close panel">✕</button>
       </div>
       <div class="panel-body" id="panel-terminal"></div>
-      <div class="panel-body hidden" id="panel-api"></div>
     </div>
   </main>
 </div>
@@ -127,6 +126,9 @@
     <span class="st hide-sm" id="st-pos">Ln 1, Col 1</span>
     <span class="st hide-sm">UTF-8</span>
     <span class="st hide-sm" id="st-lang">Markdown</span>
+    <button class="st live-btn" id="btn-resume" title="Open resume.pdf">
+      <svg class="mini" viewBox="0 0 24 24"><path d="M14 3H7v18h10V7z"/><path d="M14 3v4h4"/></svg> Resume
+    </button>
     <button class="st live-btn" id="btn-panel" title="Toggle terminal">
       <svg class="mini" viewBox="0 0 24 24"><path d="M5 7l4 4-4 4M12 16h7"/></svg> Terminal
     </button>
