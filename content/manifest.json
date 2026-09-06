@@ -1,0 +1,13 @@
+{
+  "order": [
+    "about.md",
+    "experience.json",
+    "projects.ts",
+    "skills.json",
+    "education.md",
+    "volunteering.md",
+    "contact.json"
+  ],
+  "open": "about.md",
+  "folder": "src"
+}

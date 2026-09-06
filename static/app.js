@@ -1,10 +1,12 @@
-/* The workbench: explorer, tabs, editor, search, quick open.
-   Content lives in content/*.js — this file only knows how to display it. */
+/* The workbench: fetches content from the Flask API, then renders the
+   explorer, tabs and editor. Content lives in content/ on the server —
+   this file only knows how to display it. */
+window.PORTFOLIO = { files: [], open: null };
+
 (() => {
   const $ = (s) => document.querySelector(s);
-  const files = PORTFOLIO.files;
-  const byName = Object.fromEntries(files.map(f => [f.name, f]));
   const esc = (s) => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  let files = [], byName = {}, openTabs = [], active = null, curLine = 1;
 
   /* ---------- syntax highlighting ---------- */
   const RULES = {
@@ -56,34 +58,36 @@
   }
 
   /* ---------- explorer ---------- */
-  const LANG_LABEL = { markdown: 'Markdown', json: 'JSON', ts: 'TypeScript' };
+  const LANG_LABEL = { markdown: 'Markdown', json: 'JSON', ts: 'TypeScript', text: 'Plain Text' };
   const iconFor = (name) => {
-    const ext = name.split('.').pop();
     const map = { md: ['MD', 'i-md'], json: ['{}', 'i-json'], ts: ['TS', 'i-ts'], js: ['JS', 'i-js'] };
-    const [txt, cls] = map[ext] || ['·', ''];
+    const [txt, cls] = map[name.split('.').pop()] || ['·', ''];
     return `<span class="ficon ${cls}">${txt}</span>`;
   };
 
   function renderTree() {
     const tree = $('#file-tree');
     tree.innerHTML =
-      `<li class="folder"><span class="chev">▾</span>src</li>` +
+      `<li class="folder"><span class="chev">▾</span>content</li>` +
       files.map(f => `<li data-file="${f.name}">${iconFor(f.name)}${f.name}</li>`).join('');
     tree.querySelectorAll('[data-file]').forEach(li =>
       li.addEventListener('click', () => open(li.dataset.file)));
   }
 
   /* ---------- tabs + editor ---------- */
-  let openTabs = [];
-  let active = null;
-  let curLine = 1;
+  const isNarrow = () => window.matchMedia('(max-width: 760px)').matches;
 
   function open(name, line) {
     if (!byName[name]) return;
     if (!openTabs.includes(name)) openTabs.push(name);
     active = name;
     curLine = line || 1;
+    if (isNarrow()) closeNav();
     render();
+    if (line) {
+      const el = $('#code').children[line - 1];
+      if (el) el.scrollIntoView({ block: 'center' });
+    }
   }
 
   function close(name) {
@@ -116,7 +120,7 @@
     const f = byName[active];
     const lines = f.content.replace(/\n$/, '').split('\n');
     $('#breadcrumbs').innerHTML =
-      `<span>${f.folder}</span><span class="sep">›</span>${iconFor(f.name)}<span>${f.name}</span>`;
+      `<span>content</span><span class="sep">›</span>${iconFor(f.name)}<span>${f.name}</span>`;
     $('#gutter').innerHTML = lines.map((_, i) =>
       `<span class="${i + 1 === curLine ? 'cur' : ''}">${i + 1}</span>`).join('');
     $('#code').innerHTML = lines.map((l, i) =>
@@ -140,14 +144,14 @@
   /* ---------- minimap ---------- */
   function drawMinimap(lines) {
     const cv = $('#minimap');
+    if (!cv.offsetParent && isNarrow()) return;
     const h = $('#editor').clientHeight || 600;
     cv.height = h;
     const ctx = cv.getContext('2d');
     ctx.clearRect(0, 0, cv.width, h);
     const step = Math.min(3, h / Math.max(lines.length, 1));
     lines.forEach((l, i) => {
-      const indent = l.match(/^\s*/)[0].length;
-      const len = l.trim().length;
+      const indent = l.match(/^\s*/)[0].length, len = l.trim().length;
       if (!len) return;
       ctx.fillStyle = i + 1 === curLine ? '#4a4a4a' : '#3f3f3f';
       ctx.fillRect(4 + indent * 1.4, i * step, Math.min(len * 1.3, 80), Math.max(step - 1, 1));
@@ -157,26 +161,32 @@
     if (active) drawMinimap(byName[active].content.replace(/\n$/, '').split('\n'));
   });
 
-  /* ---------- activity bar views ---------- */
+  /* ---------- mobile sidebar ---------- */
+  const openNav = () => document.body.classList.add('nav-open');
+  const closeNav = () => document.body.classList.remove('nav-open');
+  $('#menu-btn').addEventListener('click', () =>
+    document.body.classList.toggle('nav-open'));
+  $('#scrim').addEventListener('click', closeNav);
+
+  /* ---------- activity bar ---------- */
   const LABELS = { explorer: 'Explorer', search: 'Search', scm: 'Source Control', run: 'Run and Debug', account: 'Contact' };
   document.querySelectorAll('.act').forEach(btn => btn.addEventListener('click', () => {
     document.querySelectorAll('.act').forEach(b => b.classList.toggle('active', b === btn));
     const v = btn.dataset.view;
     document.querySelectorAll('.view').forEach(el => el.classList.toggle('hidden', el.id !== 'view-' + v));
     $('#sidebar-label').textContent = LABELS[v];
-    if (v === 'search') $('#search-input').focus();
+    if (isNarrow()) openNav();
+    if (v === 'search' && !isNarrow()) $('#search-input').focus();
   }));
 
   /* ---------- search ---------- */
   $('#search-input').addEventListener('input', (e) => {
-    const q = e.target.value.trim();
-    const box = $('#search-results');
+    const q = e.target.value.trim(), box = $('#search-results');
     if (q.length < 2) { box.innerHTML = '<div class="pad muted small">Type at least 2 characters.</div>'; return; }
     const needle = q.toLowerCase();
     let html = '', total = 0;
     for (const f of files) {
-      const hits = f.content.split('\n')
-        .map((l, i) => ({ l, n: i + 1 }))
+      const hits = f.content.split('\n').map((l, i) => ({ l, n: i + 1 }))
         .filter(x => x.l.toLowerCase().includes(needle));
       if (!hits.length) continue;
       total += hits.length;
@@ -191,21 +201,22 @@
       el.addEventListener('click', () => open(el.dataset.open, +el.dataset.line)));
   });
 
-  /* ---------- contact view ---------- */
-  (() => {
+  /* ---------- contact panel ---------- */
+  function buildContactPanel() {
     const c = byName['contact.json'];
     if (!c) return;
     let data = {};
-    try { data = JSON.parse(c.content); } catch (_) {}
+    try { data = JSON.parse(c.content); } catch (_) { return; }
     $('#account-links').innerHTML = Object.entries(data).map(([k, v]) => {
       const val = /^https?:\/\//.test(v) ? `<a href="${v}" target="_blank" rel="noopener">${v}</a>`
         : k === 'email' ? `<a href="mailto:${v}">${v}</a>`
-        : `<div class="small">${v}</div>`;
-      return `<div class="small muted" style="margin-top:8px">${k}</div>${val}`;
+        : k === 'phone' ? `<a href="tel:${String(v).replace(/\s/g, '')}">${v}</a>`
+        : `<div class="small">${esc(String(v))}</div>`;
+      return `<div class="small muted" style="margin-top:8px">${k.replace(/_/g, ' ')}</div>${val}`;
     }).join('');
-  })();
+  }
 
-  /* ---------- quick open (Ctrl/Cmd+P) ---------- */
+  /* ---------- quick open ---------- */
   const palette = $('#palette'), pInput = $('#palette-input'), pList = $('#palette-list');
   let pSel = 0, pItems = [];
 
@@ -214,7 +225,7 @@
     pItems = files.filter(f => f.name.toLowerCase().includes(q));
     pSel = 0;
     pList.innerHTML = pItems.length
-      ? pItems.map((f, i) => `<li class="${i === 0 ? 'sel' : ''}" data-i="${i}">${iconFor(f.name)}${f.name}<span class="dim">${f.folder}</span></li>`).join('')
+      ? pItems.map((f, i) => `<li class="${i === 0 ? 'sel' : ''}" data-i="${i}">${iconFor(f.name)}${f.name}<span class="dim">content</span></li>`).join('')
       : '<li class="dim">No matching files</li>';
     pList.querySelectorAll('[data-i]').forEach(li =>
       li.addEventListener('click', () => { open(pItems[+li.dataset.i].name); hidePalette(); }));
@@ -240,20 +251,90 @@
     if (e.key === 'Enter' && pItems[pSel]) { open(pItems[pSel].name); hidePalette(); }
   });
 
+  /* ---------- terminal panel (real API traffic) ---------- */
+  const term = () => $('#panel-terminal');
+  function log(text, cls = '') {
+    const el = document.createElement('div');
+    el.className = 'term-line ' + cls;
+    el.innerHTML = text;
+    term().appendChild(el);
+    term().scrollTop = term().scrollHeight;
+  }
+
+  async function api(path, opts) {
+    const t0 = performance.now();
+    const method = (opts && opts.method) || 'GET';
+    try {
+      const res = await fetch(path, opts);
+      const ms = Math.round(performance.now() - t0);
+      const body = await res.json();
+      const cls = res.ok ? 'ok' : 'err';
+      log(`<span class="tm">${method}</span> ${esc(path)} <span class="${cls}">${res.status}</span> <span class="dim">· ${ms}ms</span>`);
+      return { ok: res.ok, status: res.status, body };
+    } catch (err) {
+      log(`<span class="tm">${method}</span> ${esc(path)} <span class="err">FAILED</span> <span class="dim">· ${esc(String(err))}</span>`);
+      throw err;
+    }
+  }
+
+  const ENDPOINTS = [
+    ['GET', '/api/health', 'server status, port and section count'],
+    ['GET', '/api/content', 'every section, in manifest order'],
+    ['GET', '/api/content/about.md', 'one section by name'],
+    ['GET', '/api/profile', 'contact.json, parsed'],
+    ['POST', '/api/contact', 'validates and appends to data/messages.jsonl'],
+  ];
+
+  function buildApiPanel() {
+    $('#panel-api').innerHTML = ENDPOINTS.map(([m, path, desc]) => `
+      <div class="ep ${m === 'GET' ? 'runnable' : ''}" ${m === 'GET' ? `data-run="${path}"` : ''}>
+        <span class="ep-m ${m.toLowerCase()}">${m}</span>
+        <span class="ep-p">${path}</span>
+        <span class="ep-d">${desc}</span>
+        ${m === 'GET' ? '<span class="ep-go">run ▸</span>' : '<span class="ep-go dim">curl</span>'}
+      </div>`).join('') +
+      `<div class="ep-note">Flask serves this page and the API from <code>app.py</code>. GET rows run for real — the response prints in TERMINAL.</div>`;
+
+    $('#panel-api').querySelectorAll('[data-run]').forEach(row =>
+      row.addEventListener('click', async () => {
+        showPanel('terminal');
+        try {
+          const r = await api(row.dataset.run);
+          const json = JSON.stringify(r.body);
+          log(`<span class="dim">${esc(json.length > 240 ? json.slice(0, 240) + ' …' : json)}</span>`);
+        } catch (_) { /* already logged */ }
+      }));
+  }
+
+  function showPanel(which) {
+    $('#panel').classList.remove('hidden');
+    document.querySelectorAll('.ptab').forEach(t =>
+      t.classList.toggle('active', t.dataset.panel === which));
+    $('#panel-terminal').classList.toggle('hidden', which !== 'terminal');
+    $('#panel-api').classList.toggle('hidden', which !== 'api');
+    $('#btn-panel').classList.add('on');
+    if (active) drawMinimap(byName[active].content.replace(/\n$/, '').split('\n'));
+  }
+  function hidePanel() {
+    $('#panel').classList.add('hidden');
+    $('#btn-panel').classList.remove('on');
+  }
+  document.querySelectorAll('.ptab').forEach(t =>
+    t.addEventListener('click', () => showPanel(t.dataset.panel)));
+  $('#panel-close').addEventListener('click', hidePanel);
+  $('#btn-panel').addEventListener('click', () =>
+    $('#panel').classList.contains('hidden') ? showPanel('terminal') : hidePanel());
+
+  // golive.js drives the terminal when "Go Live" is clicked
+  PORTFOLIO.term = { show: () => showPanel('terminal'), log };
+
   /* ---------- splash ---------- */
-  function runSplash() {
+  function runSplash(steps) {
     const splash = $('#splash'), fill = $('#splash-fill'), log = $('#splash-log');
     if (!splash) return;
-
-    const steps = [
-      'Starting workspace\u2026',
-      ...files.map(f => 'Loading content/' + f.name + '.js'),
-      'Ready.'
-    ];
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const tick = reduced ? 40 : 150;
+    const tick = reduced ? 40 : 140;
     let i = 0, timer;
-
     const finish = () => {
       clearInterval(timer);
       document.removeEventListener('keydown', finish);
@@ -261,20 +342,57 @@
       splash.classList.add('done');
       setTimeout(() => splash.remove(), 500);
     };
-
     timer = setInterval(() => {
       log.textContent = steps[i];
       fill.style.width = Math.round(((i + 1) / steps.length) * 100) + '%';
-      if (++i >= steps.length) setTimeout(finish, reduced ? 80 : 320);
+      if (++i >= steps.length) setTimeout(finish, reduced ? 80 : 300);
     }, tick);
-
     splash.addEventListener('click', finish);
     document.addEventListener('keydown', finish);
   }
 
+  function bootError(err) {
+    $('#splash')?.remove();
+    $('#editor').classList.add('hidden');
+    $('#welcome').classList.remove('hidden');
+    $('#welcome').innerHTML =
+      `<h1>Backend not reachable</h1>
+       <p class="sub">${esc(String(err))}</p>
+       <div class="cmds">
+         <div><span>Install</span><kbd>pip install -r requirements.txt</kbd></div>
+         <div><span>Run</span><kbd>python app.py</kbd></div>
+         <div><span>Then open</span><kbd>http://127.0.0.1:5500</kbd></div>
+       </div>`;
+  }
+
   /* ---------- boot ---------- */
-  renderTree();
-  const first = files.find(f => f.open) || files[0];
-  if (first) open(first.name); else render();
-  runSplash();
+  (async () => {
+    log('<span class="dim">$</span> python app.py', 'cmd');
+    log('<span class="dim"> * Flask dev server — serving content/ on port 5500</span>');
+
+    let data;
+    try {
+      const res = await api('/api/content');
+      if (!res.ok) throw new Error(`GET /api/content → HTTP ${res.status}`);
+      data = res.body;
+    } catch (err) { bootError(err); return; }
+
+    files = data.files || [];
+    PORTFOLIO.files = files;
+    byName = Object.fromEntries(files.map(f => [f.name, f]));
+
+    log(`<span class="dim">   loaded ${files.length} sections · ${files.reduce((n, f) => n + f.lines, 0)} lines</span>`);
+    renderTree();
+    buildContactPanel();
+    buildApiPanel();
+    const first = byName[data.open] || files[0];
+    if (first) open(first.name); else render();
+
+    runSplash([
+      'Starting workspace…',
+      'GET /api/content → 200',
+      ...files.map(f => `content/${f.name} · ${f.lines} lines`),
+      'Ready.',
+    ]);
+  })();
 })();

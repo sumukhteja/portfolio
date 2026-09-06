@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'experience.json',
-  folder: 'src',
-  lang: 'json',
-  content: `[
+[
   {
     "role": "Senior Developer",
     "company": "Girgit Inc",
@@ -62,5 +58,3 @@ PORTFOLIO.file({
     ]
   }
 ]
-`
-});

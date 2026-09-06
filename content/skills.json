@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'skills.json',
-  folder: 'src',
-  lang: 'json',
-  content: `{
+{
   "languages": ["Python", "C# / .NET", "SQL (Oracle, PL/SQL)", "LaTeX"],
   "aws": [
     "Lambda", "API Gateway", "DynamoDB", "S3", "SQS", "SNS",
@@ -19,5 +15,3 @@ PORTFOLIO.file({
   "backend": ["Flask", "Node.js", "REST APIs", "automated testing"],
   "tools": ["Git", "GitHub", "VS Code", "Postman", "Jira", "ServiceNow", "Linux/Bash"]
 }
-`
-});

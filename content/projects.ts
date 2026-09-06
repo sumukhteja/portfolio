@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'projects.ts',
-  folder: 'src',
-  lang: 'ts',
-  content: `export interface Project {
+export interface Project {
   name: string;
   meta: string;
   blurb: string;
@@ -60,5 +56,3 @@ export const projects: Project[] = [
 ];
 
 export default projects;
-`
-});

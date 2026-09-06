@@ -1,9 +1,4 @@
-PORTFOLIO.file({
-  name: 'about.md',
-  folder: 'src',
-  lang: 'markdown',
-  open: true,          // opens in a tab on load
-  content: `# Sumukh Teja Vanamala
+# Sumukh Teja Vanamala
 
 ## AI & Cloud Engineer
 
@@ -47,5 +42,3 @@ English · Hindi · Telugu · French
 - [GitHub](https://github.com/sumukhteja)
 - [LinkedIn](https://www.linkedin.com/in/sumukhteja/)
 - [sumukhteja.com](https://sumukhteja.com)
-`
-});

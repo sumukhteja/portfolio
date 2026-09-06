@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'volunteering.md',
-  folder: 'src',
-  lang: 'markdown',
-  content: `# Volunteering
+# Volunteering
 
 ## Volunteer
 **National Service Scheme** — Aug 2018 – Mar 2020 · 1 yr 8 mos
@@ -20,5 +16,3 @@ PORTFOLIO.file({
   TFI (Teach for India).
 - Worked closely with a team of volunteers to collect funds and resources,
   directing them toward orphanages and people in need.
-`
-});

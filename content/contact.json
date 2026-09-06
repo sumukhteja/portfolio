@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'contact.json',
-  folder: 'src',
-  lang: 'json',
-  content: `{
+{
   "name": "Sumukh Teja Vanamala",
   "title": "AI & Cloud Engineer",
   "email": "sumukh.teja.vanamala@outlook.com",
@@ -14,5 +10,3 @@ PORTFOLIO.file({
   "languages": "English, Hindi, Telugu, French",
   "availability": "Open to backend and cloud roles — on-site, hybrid or remote"
 }
-`
-});

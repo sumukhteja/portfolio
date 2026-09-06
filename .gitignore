@@ -25,3 +25,9 @@ dist-ssr
 .env
 .env.local
 ".env" 
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+data/messages.jsonl

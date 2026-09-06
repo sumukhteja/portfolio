@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ profile.name or 'Portfolio' }}{% if profile.title %} — {{ profile.title }}{% endif %}</title>
+<meta name="description" content="{{ profile.name }} — {{ profile.title }}. {{ profile.location }}.">
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>{{ profile.name }}</h1>
+    {% if profile.title %}<p class="role">{{ profile.title }}</p>{% endif %}
+    <p class="meta">{{ [profile.location, profile.languages] | select | join(' · ') }}</p>
+    {% if profile.availability %}<p class="avail">{{ profile.availability }}</p>{% endif %}
+    <nav>
+      {% if profile.github %}<a href="{{ profile.github }}" target="_blank" rel="noopener">GitHub</a>{% endif %}
+      {% if profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+      {% if profile.portfolio %}<a href="{{ profile.portfolio }}" target="_blank" rel="noopener">Website</a>{% endif %}
+      {% if profile.email %}<a href="mailto:{{ profile.email }}">Email</a>{% endif %}
+    </nav>
+  </header>
+
+  <section class="prose">{{ about | safe }}</section>
+
+  <section>
+    <h2>Experience</h2>
+    {% for role in experience %}
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{{ role.role }}</h3>
+        <span class="when">{{ role.dates }}</span>
+      </div>
+      <p class="org">{{ [role.company, role.type, role.location] | select | join(' · ') }}</p>
+      {% if role.summary %}<p class="lead">{{ role.summary }}</p>{% endif %}
+      <ul>{% for h in role.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    {% for p in projects %}
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{{ p.name }}</h3>
+        <span class="when">{{ p.when }}</span>
+      </div>
+      {% if p.meta %}<p class="org">{{ p.meta }}</p>{% endif %}
+      <p>{{ p.blurb }}</p>
+      {% if p.stack %}<div class="chips">{% for s in p.stack %}<span>{{ s }}</span>{% endfor %}</div>{% endif %}
+    </article>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    {% for category, items in skills.items() %}
+    <div class="skill-row">
+      <h4>{{ category.replace('_', ' ') }}</h4>
+      <div class="chips">{% for s in items %}<span>{{ s }}</span>{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section class="prose">{{ education | safe }}</section>
+  <section class="prose">{{ volunteering | safe }}</section>
+
+  <section>
+    <h2>Contact</h2>
+    <form id="contact-form" novalidate>
+      <div class="row">
+        <label>Name<input name="name" required autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+      </div>
+      <label>Message<textarea name="message" rows="4" required minlength="10"></textarea></label>
+      <button type="submit">Send</button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </form>
+  </section>
+
+  <footer>
+    <p>{{ profile.email }}{% if profile.phone %} · {{ profile.phone }}{% endif %}</p>
+    <p class="fine">Rendered server side by Flask from <code>content/</code> · &copy; {{ year }} {{ profile.name }}</p>
+  </footer>
+</div>
+
+<script>
+  // Posts to the Flask API — the same backend that rendered this page.
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target, status = document.getElementById('form-status');
+    const payload = Object.fromEntries(new FormData(form).entries());
+    status.textContent = 'Sending…';
+    status.className = 'form-status';
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const body = await res.json();
+      if (res.ok) {
+        form.reset();
+        status.textContent = 'Thanks — your message was received.';
+        status.className = 'form-status ok';
+      } else {
+        status.textContent = Object.entries(body.errors || {}).map(([k, v]) => `${k}: ${v}`).join(' · ') || 'Something went wrong.';
+        status.className = 'form-status err';
+      }
+    } catch (err) {
+      status.textContent = 'Could not reach the server.';
+      status.className = 'form-status err';
+    }
+  });
+</script>
+</body>
+</html>

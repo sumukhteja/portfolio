@@ -1,8 +1,4 @@
-PORTFOLIO.file({
-  name: 'education.md',
-  folder: 'src',
-  lang: 'markdown',
-  content: `# Education
+# Education
 
 ## Bachelor of Engineering — Mechanical Engineering
 **Vasavi College of Engineering**, Hyderabad — 2017 – 2021
@@ -32,11 +28,9 @@ Grade: **9.3**
   Stanford Online — issued Sep 2026
 - **AWS Certified Solutions Architect**
   Udemy — issued Jul 2026
-  \`Credential ID UC-989a7ec2-0615-408e-99d1-e224d3eb65bf\`
+  `Credential ID UC-989a7ec2-0615-408e-99d1-e224d3eb65bf`
 - **Cloud Computing 101**
   Amazon Web Services (AWS) — issued May 2026
 - **Azure AI Fundamentals**
   Microsoft — issued Jan 2023
-  \`Credential ID I571-7218\`
-`
-});
+  `Credential ID I571-7218`
