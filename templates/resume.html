@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ profile.name }} — Resume</title>
+<meta name="description" content="{{ profile.name }}, {{ profile.title }} — resume, experience and projects.">
+<link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}">
+</head>
+<body>
+
+<div class="toolbar">
+  <a class="tool" href="/">← Back to the editor</a>
+  <button class="tool" onclick="window.print()">Save as PDF</button>
+</div>
+
+<main class="sheet">
+
+  <header class="masthead">
+    <h1>{{ profile.name }}</h1>
+    {% if profile.title %}<p class="role">{{ profile.title }}</p>{% endif %}
+    <p class="meta">
+      {% if profile.location %}<span>{{ profile.location }}</span>{% endif %}
+      {% if profile.phone %}<span>{{ profile.phone }}</span>{% endif %}
+      {% if profile.email %}<span><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></span>{% endif %}
+    </p>
+    <p class="meta links">
+      {% if profile.portfolio %}<span><a href="{{ profile.portfolio }}">{{ profile.portfolio | replace('https://', '') }}</a></span>{% endif %}
+      {% if profile.github %}<span><a href="{{ profile.github }}">{{ profile.github | replace('https://', '') }}</a></span>{% endif %}
+      {% if profile.linkedin %}<span><a href="{{ profile.linkedin }}">{{ profile.linkedin | replace('https://', '') | replace('www.', '') }}</a></span>{% endif %}
+    </p>
+  </header>
+
+  {% if summary or strengths %}
+  <section>
+    <h2>Summary</h2>
+    <div class="prose">{{ summary | safe }}{{ strengths | safe }}</div>
+  </section>
+  {% endif %}
+
+  {% if experience %}
+  <section>
+    <h2>Experience</h2>
+    {% for role in experience %}
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{{ role.role }} <span class="at">·</span> <span class="org">{{ role.company }}</span></h3>
+        <span class="when">{{ role.dates }}</span>
+      </div>
+      <p class="sub">
+        {% if role.location %}{{ role.location }}{% endif %}
+        {% if role.focus %}<span class="dot">·</span>{{ role.focus }}{% endif %}
+      </p>
+      <ul>
+        {% for point in role.highlights %}<li>{{ point }}</li>{% endfor %}
+      </ul>
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if projects %}
+  <section>
+    <h2>Projects</h2>
+    {% for project in projects %}
+    <article class="entry">
+      <div class="entry-head">
+        <h3>{{ project.name }}</h3>
+        <span class="when">{{ project.when }}</span>
+      </div>
+      <p class="body">{{ project.blurb }}</p>
+      {% if project.stack %}<p class="stack">{{ project.stack | join(' · ') }}</p>{% endif %}
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if skills %}
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      {% for label, items in skills %}
+      <dt>{{ label }}</dt>
+      <dd>{{ items | join(' · ') }}</dd>
+      {% endfor %}
+    </dl>
+  </section>
+  {% endif %}
+
+  {% for heading, html in sections %}
+  <section>
+    <h2>{{ heading }}</h2>
+    <div class="prose">{{ html | safe }}</div>
+  </section>
+  {% endfor %}
+
+  <footer class="colophon">
+    {{ profile.name }} · updated {{ year }} ·
+    <a href="/">served from the editor</a>
+  </footer>
+
+</main>
+</body>
+</html>

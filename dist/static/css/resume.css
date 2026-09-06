@@ -1,0 +1,242 @@
+/* ===========================================================================
+   The resume, as a document. White page, one serif family, no ornament —
+   the same thing you'd hand someone on paper.
+   =========================================================================== */
+
+:root {
+  --ink:    #16181c;
+  --soft:   #4a4f57;
+  --faint:  #767b83;
+  --rule:   #d9dce1;
+  --link:   #1a4d8f;
+  --serif:  "Source Serif 4", "Iowan Old Style", Charter, Georgia, "Times New Roman", serif;
+  --sheet:  760px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font: 400 15px/1.58 var(--serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── toolbar (screen only) ──────────────────────────────────────────────── */
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: var(--sheet);
+  margin: 0 auto;
+  padding: 16px 44px 0;
+  background: #fff;
+}
+.tool {
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--soft);
+  font: 400 13px var(--serif);
+  cursor: pointer;
+  text-decoration: none;
+}
+.tool:hover { border-color: #b9bec6; color: var(--ink); text-decoration: none; }
+
+/* ── sheet ──────────────────────────────────────────────────────────────── */
+
+.sheet {
+  max-width: var(--sheet);
+  margin: 0 auto;
+  padding: 34px 44px 72px;
+}
+
+/* masthead */
+
+.masthead { padding-bottom: 20px; border-bottom: 2px solid var(--ink); }
+.masthead h1 {
+  margin: 0;
+  font-size: 33px;
+  font-weight: 600;
+  letter-spacing: -.012em;
+  line-height: 1.15;
+}
+.role {
+  margin: 5px 0 0;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--soft);
+}
+.meta {
+  margin: 11px 0 0;
+  font-size: 13.5px;
+  color: var(--soft);
+}
+.meta span + span::before {
+  content: "·";
+  margin: 0 8px;
+  color: var(--faint);
+}
+.meta.links { margin-top: 3px; }
+
+/* sections */
+
+section { margin-top: 30px; }
+
+h2 {
+  margin: 0 0 13px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* entries */
+
+.entry { margin-bottom: 20px; break-inside: avoid; }
+.entry:last-child { margin-bottom: 0; }
+
+.entry-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.entry-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.entry-head .org { font-weight: 600; }
+.entry-head .at { color: var(--faint); font-weight: 400; }
+.when {
+  flex: none;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--soft);
+  white-space: nowrap;
+}
+
+.sub {
+  margin: 2px 0 7px;
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--faint);
+}
+.sub .dot { margin: 0 7px; font-style: normal; }
+
+.entry ul { margin: 0; padding-left: 19px; }
+.entry li { margin-bottom: 5px; }
+.entry li::marker { color: var(--faint); }
+
+.body { margin: 4px 0 5px; }
+.stack {
+  margin: 0;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+/* skills */
+
+.skills {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 8px 20px;
+  margin: 0;
+}
+.skills dt {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--soft);
+}
+.skills dd { margin: 0; font-size: 14.5px; }
+
+/* markdown blocks */
+
+.prose > :first-child { margin-top: 0; }
+.prose > :last-child { margin-bottom: 0; }
+.prose p { margin: 0 0 9px; }
+.prose h2 {
+  margin: 16px 0 6px;
+  padding: 0;
+  border: 0;
+  font-size: 15.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 600;
+}
+.prose h3 { margin: 14px 0 4px; font-size: 15px; font-weight: 600; }
+.prose ul { margin: 0 0 9px; padding-left: 19px; }
+.prose li { margin-bottom: 4px; }
+.prose li::marker { color: var(--faint); }
+.prose blockquote {
+  margin: 12px 0;
+  padding-left: 15px;
+  border-left: 2px solid var(--rule);
+  font-style: italic;
+  color: var(--soft);
+}
+.prose hr { margin: 18px 0; border: 0; border-top: 1px solid var(--rule); }
+.prose strong { font-weight: 600; }
+.prose code {
+  padding: 1px 4px;
+  background: #f2f3f5;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.colophon {
+  margin-top: 46px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+/* ── small screens ──────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  body { font-size: 14.5px; }
+  .toolbar { padding: 12px 22px 0; }
+  .sheet { padding: 26px 22px 56px; }
+  .masthead h1 { font-size: 27px; }
+  .entry-head { display: block; }
+  .when { display: block; margin-top: 2px; }
+  .skills { grid-template-columns: 1fr; gap: 2px 0; }
+  .skills dd { margin-bottom: 10px; }
+}
+
+/* ── print ──────────────────────────────────────────────────────────────── */
+
+@page { margin: 14mm 15mm; }
+
+@media print {
+  .toolbar, .colophon { display: none; }
+  body { font-size: 10.5pt; line-height: 1.42; }
+  .sheet { max-width: none; padding: 0; }
+  .masthead h1 { font-size: 21pt; }
+  .role { font-size: 11.5pt; }
+  .meta { font-size: 9pt; }
+  section { margin-top: 15pt; }
+  h2 { font-size: 9pt; margin-bottom: 8pt; }
+  .entry { margin-bottom: 11pt; }
+  .entry-head h3 { font-size: 11pt; }
+  .when, .sub, .stack { font-size: 9pt; }
+  .skills { grid-template-columns: 110pt 1fr; gap: 4pt 14pt; }
+  .skills dd { font-size: 10pt; }
+  a { color: var(--ink); text-decoration: none; }
+}

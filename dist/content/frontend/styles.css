@@ -1,0 +1,67 @@
+/* VS Code Dark Modern, cut down to what this workbench actually uses. */
+
+:root {
+  --bg: #1f1f1f;           /* editor */
+  --chrome: #181818;       /* title bar, sidebar, activity bar, status bar */
+  --border: #2b2b2b;
+  --text: #cccccc;
+  --dim: #9d9d9d;
+  --accent: #0078d4;
+  --hover: #ffffff0a;
+  --selection: #04395e;
+
+  --ui: -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+
+  --row: 22px;             /* one line of code, one tree row */
+  --activitybar: 48px;
+  --sidebar: 260px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 35px 1fr 22px;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.4 var(--ui);
+  overflow: hidden;
+}
+
+.workbench {
+  display: grid;
+  grid-template-columns: var(--activitybar) var(--sidebar) 1fr;
+  min-height: 0;
+}
+
+/* --- editor --- */
+
+.editor {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  overflow: auto;
+  font: 13px/var(--row) var(--mono);
+}
+
+.gutter {
+  padding: 12px 20px 12px 26px;
+  color: #6e7681;
+  text-align: right;
+  user-select: none;
+}
+
+.line { display: block; padding: 0 24px; }
+.line:hover { background: var(--hover); }
+
+/* --- syntax --- */
+
+.t-kw   { color: #569cd6; }
+.t-str  { color: #ce9178; }
+.t-num  { color: #b5cea8; }
+.t-key  { color: #9cdcfe; }
+.t-fn   { color: #dcdcaa; }
+.t-type { color: #4ec9b0; }
+.t-com  { color: #6a9955; font-style: italic; }

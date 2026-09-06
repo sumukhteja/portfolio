@@ -1,0 +1,7 @@
+# Real config — the .env inside content/ is sample text for the editor and stays.
+/.env
+.venv/
+__pycache__/
+*.pyc
+/data/messages.jsonl
+.DS_Store

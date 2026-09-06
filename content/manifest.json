@@ -1,0 +1,26 @@
+{
+  "open": "about.md",
+  "tree": [
+    {
+      "folder": "backend",
+      "files": ["app.py", "routes.py", "models.py", "requirements.txt"]
+    },
+    {
+      "folder": "frontend",
+      "files": ["index.html", "app.js", "styles.css"]
+    },
+    {
+      "folder": "",
+      "files": [
+        "about.md",
+        "experience.json",
+        "projects.ts",
+        "skills.json",
+        "education.md",
+        "contact.json",
+        ".env",
+        "README.md"
+      ]
+    }
+  ]
+}
