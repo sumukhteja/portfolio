@@ -4,7 +4,7 @@ PORTFOLIO.file({
   lang: 'json',
   content: `{
   "name": "Sumukh Teja Vanamala",
-  "title": "Backend & Cloud Engineer",
+  "title": "AI & Cloud Engineer",
   "email": "sumukh.teja.vanamala@outlook.com",
   "phone": "+91 8374822724",
   "github": "https://github.com/sumukhteja",

@@ -6,6 +6,7 @@ PORTFOLIO.file({
   {
     "role": "Senior Developer",
     "company": "Girgit Inc",
+    "type": "Full-time",
     "location": "Hyderabad",
     "start": "2023-08",
     "end": "present",
@@ -19,30 +20,45 @@ PORTFOLIO.file({
     ]
   },
   {
-    "role": "Automation Engineer (Freelance)",
-    "company": "Flyberry Gourmet",
-    "location": "Remote",
-    "start": "2023-06",
-    "end": "2023-07",
-    "focus": "Python | Flask | pandas | AWS",
-    "summary": "Built a full-stack PO processing tool handling ~100 purchase orders a week, cutting ~20 hours of manual data entry a week.",
+    "role": "Cloud Engineer — AWS, OAuth",
+    "company": "All Kind Studio",
+    "type": "Freelance",
+    "location": "Greater Hyderabad Area · Remote",
+    "start": "2026-08",
+    "end": "2026-09",
+    "duration": "2 mos",
     "highlights": [
-      "Flask REST API with pdfplumber extracting line items, pricing and HSN codes from PO PDFs to structured CSV, with ZIP-based bulk download and error handling for invalid files and parsing failures",
-      "Deployed the frontend on S3 with CloudFront and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management"
+      "Built and deployed a serverless web app on AWS (Cognito, Lambda, API Gateway, S3, CloudFront) to manage pottery classes, enrolments, and student progress — full infrastructure defined as code with CloudFormation",
+      "Integrated Google OAuth sign-in with AWS Cognito, giving students one-click login alongside email sign-up with admin roles and per-user access to S3 buckets so photos and data stay private to each account (Cognito User Pool)",
+      "Added a community feed for students to share work and comment, with S3-backed media and moderation tools for the studio team"
     ]
   },
   {
-    "role": "Software Engineering Associate",
+    "role": "Automation Engineer — AWS Lambda, Cloudflare Pages, Python",
+    "company": "Flyberry Gourmet",
+    "type": "Freelance",
+    "location": "Greater Hyderabad Area · Remote",
+    "start": "2025-09",
+    "end": "2025-09",
+    "duration": "1 mo",
+    "highlights": [
+      "Built a full-stack document extraction tool automating extraction of line items, pricing, delivery locations and HSN codes from PO PDFs, replacing manual data entry",
+      "Deployed the frontend on Cloudflare Pages and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management"
+    ]
+  },
+  {
+    "role": "Software Engineering Associate — .NET | C# | Oracle SQL | VBA",
     "company": "Accenture",
-    "location": "Hyderabad",
+    "type": "Full-time",
+    "location": "Hyderabad, Telangana, India · On-site",
     "start": "2022-01",
     "end": "2023-04",
-    "focus": ".NET | C# | Oracle SQL | VBA",
-    "summary": "Maintained and enhanced a C#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer.",
+    "duration": "1 yr 4 mos",
     "highlights": [
-      "Performed RCA on production defects across the .NET front end and Oracle data layer, delivering changes in an Agile/Scrum model and collaborating with QA and business analysts through to UAT and release",
-      "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures across large policy tables",
-      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, saving ~2 hours of manual effort daily"
+      "Maintained and enhanced a C#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer",
+      "Performed RCA on production defects across the .NET front end and Oracle data layer, resolving recurring incidents via ServiceNow, documented using Jira. Delivered changes in an Agile/Scrum model, collaborating with QA and business analysts through to UAT and release",
+      "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures, tuning data retrieval across large policy tables to improve performance",
+      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, automating data extraction and transformation to cut manual effort"
     ]
   }
 ]

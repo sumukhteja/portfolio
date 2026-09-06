@@ -9,7 +9,7 @@ PORTFOLIO.file({
     "Cognito", "IAM", "CloudWatch", "ECS", "ECR"
   ],
   "cloud_and_infra": [
-    "Terraform", "Docker", "Azure", "Cloudflare", "Netlify", "Railway",
+    "Terraform", "CloudFormation", "Docker", "Azure", "Cloudflare", "Netlify", "Railway",
     "CI/CD (GitHub Actions)"
   ],
   "ai_ml": [

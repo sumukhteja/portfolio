@@ -5,10 +5,15 @@ PORTFOLIO.file({
   open: true,          // opens in a tab on load
   content: `# Sumukh Teja Vanamala
 
-## Backend & Cloud Engineer
+## AI & Cloud Engineer
 
-Senior Developer at **Girgit Inc**, working across backend, cloud and AI
-end to end. Ex-Accenture. Based in Hyderabad, India.
+Building end-to-end systems: serverless AWS infrastructure, RAG pipelines,
+and scraping and automation workflows with machine learning integrated
+throughout. Currently focused on the **AWS ecosystem** and
+**LLM-powered applications**.
+
+Senior Developer at **Girgit Inc**. Ex-Accenture.
+Based in Hyderabad, India.
 
 > Open to backend and cloud roles — on-site, hybrid or remote.
 
@@ -20,16 +25,16 @@ end to end. Ex-Accenture. Based in Hyderabad, India.
 - **RAG pipelines** over large document corpora with FAISS, Neo4j knowledge
   graphs and local LLMs via Ollama, plus OCR and MCP servers exposing
   custom tools to models
-- **Automation pipelines** — multi-source ingestion and scraping, TTS/STT
+- **Scraping and automation workflows** — multi-source ingestion, TTS/STT
   audio generation, and low-latency live voice agents
 
 ## How I got here
 
 Started in mechanical engineering, moved into software at Accenture
-(C#/.NET, Oracle SQL, VBA), and have gone deeper into backend and cloud
-since. AWS Certified Solutions Architect – Associate and HashiCorp
-Terraform Associate certified; currently working through Stanford's
-Machine Learning Specialization.
+(C#/.NET, Oracle SQL, VBA), and have gone deeper into cloud and AI since.
+Completed Stanford Online's Machine Learning Specialization and
+DeepLearning.AI's Retrieval Augmented Generation course, alongside AWS
+and Azure cloud fundamentals.
 
 *I learn by building and shipping, not by reading theory.*
 
