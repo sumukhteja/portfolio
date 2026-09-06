@@ -1,0 +1,48 @@
+PORTFOLIO.file({
+  name: 'experience.json',
+  folder: 'src',
+  lang: 'json',
+  content: `[
+  {
+    "role": "Senior Developer",
+    "company": "Girgit Inc",
+    "location": "Hyderabad",
+    "start": "2023-08",
+    "end": "present",
+    "focus": "Python | AWS | Distributed Systems",
+    "highlights": [
+      "Owned high- and low-level design of an event-driven serverless backend from the ground up on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out so ingestion, processing and reporting scale and fail independently",
+      "Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR and MCP servers exposing custom tools to models",
+      "Built multi-source ingestion, scraping and content automation pipelines, plus TTS/STT audio generation including low-latency live voice agents",
+      "Drove code quality through automated testing and CI/CD on GitHub Actions, and instrumented CloudWatch metrics and structured logging for latency, error rates and throughput to tune performance"
+    ]
+  },
+  {
+    "role": "Automation Engineer (Freelance)",
+    "company": "Flyberry Gourmet",
+    "location": "Remote",
+    "start": "2023-06",
+    "end": "2023-07",
+    "focus": "Python | Flask | pandas | AWS",
+    "highlights": [
+      "Built a full-stack PO processing tool handling ~100 purchase orders a week: Flask REST API with pdfplumber extracting line items, pricing and HSN codes from PO PDFs to CSV",
+      "Deployed on S3/CloudFront with a Lambda + API Gateway backend, cutting ~20 hours of manual data entry a week"
+    ]
+  },
+  {
+    "role": "Software Engineering Associate",
+    "company": "Accenture",
+    "location": "Hyderabad",
+    "start": "2022-01",
+    "end": "2023-04",
+    "focus": ".NET | C# | Oracle SQL",
+    "highlights": [
+      "Maintained and enhanced a C#/.NET Framework WinForms application supporting policy and claims workflows for a Fortune 500 specialty insurer",
+      "Performed RCA on production defects across the .NET front end and Oracle data layer in an Agile/Scrum model through to UAT and release",
+      "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures across large policy tables",
+      "Built Excel reporting and reconciliation tools with VBA and Power Query, saving ~2 hours of manual effort daily"
+    ]
+  }
+]
+`
+});

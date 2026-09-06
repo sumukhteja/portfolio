@@ -1,0 +1,22 @@
+PORTFOLIO.file({
+  name: 'skills.json',
+  folder: 'src',
+  lang: 'json',
+  content: `{
+  "languages": ["Python", "C#/.NET", "SQL (Oracle, PL/SQL)", "LaTeX"],
+  "aws": [
+    "Lambda", "API Gateway", "DynamoDB", "S3", "SQS", "SNS",
+    "Cognito", "IAM", "CloudWatch", "ECS", "ECR"
+  ],
+  "ai_ml": [
+    "FAISS", "Sentence Transformers", "RAG", "Ollama", "llama.cpp",
+    "Neo4j", "scikit-learn", "pandas", "OCR", "TTS/STT", "MCP servers"
+  ],
+  "backend_and_practices": [
+    "Flask", "Node.js", "REST APIs", "Terraform", "Docker",
+    "CI/CD (GitHub Actions)", "automated testing"
+  ],
+  "tools": ["Git", "GitHub", "VS Code", "Postman", "Jira", "ServiceNow", "Linux/Bash"]
+}
+`
+});

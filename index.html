@@ -1,18 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumukh Teja Vanamala</title>
-    
-    <!-- High-End Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=IM+Fell+English:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sumukh Teja Vanamala — Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="titlebar">
+  <div class="traffic"><i class="red"></i><i class="yellow"></i><i class="green"></i></div>
+  <div class="title">portfolio — Visual Studio Code</div>
+</div>
+
+<div class="workbench">
+
+  <!-- Activity bar -->
+  <nav class="activitybar">
+    <button class="act active" data-view="explorer" title="Explorer">
+      <svg viewBox="0 0 24 24"><path d="M3 4h6l2 2h10v13H3z"/></svg>
+    </button>
+    <button class="act" data-view="search" title="Search">
+      <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
+    </button>
+    <button class="act" data-view="scm" title="Source Control">
+      <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.5 6H14a4 4 0 0 1 4 4v.5"/></svg>
+    </button>
+    <button class="act" data-view="run" title="Run and Debug">
+      <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+    </button>
+    <div class="spacer"></div>
+    <button class="act" data-view="account" title="Contact">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    </button>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-title"><span id="sidebar-label">Explorer</span></div>
+
+    <div class="view" id="view-explorer">
+      <div class="section-header" data-toggle="tree"><span class="chev">▾</span>PORTFOLIO</div>
+      <ul class="tree" id="file-tree"></ul>
+      <div class="section-header collapsed" data-toggle="outline"><span class="chev">▸</span>OUTLINE</div>
+    </div>
+
+    <div class="view hidden" id="view-search">
+      <input id="search-input" class="search-box" placeholder="Search" autocomplete="off">
+      <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="view hidden" id="view-scm">
+      <div class="pad">
+        <div class="scm-row"><span class="badge">M</span> about.md</div>
+        <div class="scm-row"><span class="badge add">U</span> projects.ts</div>
+        <div class="muted small">main ↑0 ↓0 — everything committed, mostly.</div>
+      </div>
+    </div>
+
+    <div class="view hidden" id="view-run">
+      <div class="pad muted small">No configurations. Press <kbd>Ctrl</kbd>+<kbd>P</kbd> to jump to a file.</div>
+    </div>
+
+    <div class="view hidden" id="view-account">
+      <div class="pad" id="account-links"></div>
+    </div>
+  </aside>
+
+  <!-- Editor area -->
+  <main class="editor-area">
+    <div class="tabs" id="tabs"></div>
+    <div class="breadcrumbs" id="breadcrumbs"></div>
+    <div class="editor" id="editor">
+      <div class="gutter" id="gutter"></div>
+      <pre class="code" id="code"></pre>
+      <canvas class="minimap" id="minimap" width="88"></canvas>
+    </div>
+    <div class="welcome hidden" id="welcome">
+      <h1>Sumukh Teja Vanamala</h1>
+      <p class="sub">Portfolio, rendered as source.</p>
+      <div class="cmds">
+        <div><span>Open a file</span><kbd>click the explorer</kbd></div>
+        <div><span>Quick open</span><kbd>Ctrl / ⌘ + P</kbd></div>
+        <div><span>Close tab</span><kbd>Ctrl / ⌘ + W</kbd></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="statusbar">
+  <div class="left">
+    <span class="st"><svg class="mini" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M8.5 6H14a4 4 0 0 1 4 4v.5"/></svg> main</span>
+    <span class="st">0 errors, 0 warnings</span>
+  </div>
+  <div class="right">
+    <span class="st" id="st-pos">Ln 1, Col 1</span>
+    <span class="st">Spaces: 2</span>
+    <span class="st">UTF-8</span>
+    <span class="st" id="st-lang">Markdown</span>
+  </div>
+</div>
+
+<!-- Quick open palette -->
+<div class="palette-backdrop hidden" id="palette">
+  <div class="palette">
+    <input id="palette-input" placeholder="Go to file…" autocomplete="off">
+    <ul id="palette-list"></ul>
+  </div>
+</div>
+
+<!-- one file = one thing -->
+<script src="content/_registry.js"></script>
+<script src="content/about.md.js"></script>
+<script src="content/experience.json.js"></script>
+<script src="content/projects.ts.js"></script>
+<script src="content/skills.json.js"></script>
+<script src="content/education.md.js"></script>
+<script src="content/contact.json.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
