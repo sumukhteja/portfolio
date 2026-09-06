@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "mkdir -p dist/static dist/content && cp index.html _redirects dist/ && cp static/site.css static/portfolio.js static/favicon.svg dist/static/ && cp content/about.md content/education.md content/contact.json content/experience.json content/projects.ts content/skills.json content/manifest.json content/volunteering.md dist/content/"
+    "build": "mkdir -p dist/static dist/content && cp index.html _redirects dist/ && cp -R static/* dist/static/ && cp -R content/ dist/content/"
   }
 }

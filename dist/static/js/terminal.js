@@ -54,17 +54,17 @@ window.Terminal = (() => {
 
   async function greet() {
     const { host, port } = window.CONFIG;
-    const url = `http://${host}:${port}/live`;
+    const url = `//${host}${port && port !== '80' && port !== '443' ? `:${port}` : ''}/live`;
 
-    writeEcho('flask run --port ' + port);
+    writeEcho('static serve --root ./content');
     await wait(180);
-    write(' * Serving Flask app "app.py"', 'muted');
+    write(' * Serving static portfolio workspace', 'muted');
     await wait(90);
-    write(' * Environment: development · debug mode on', 'muted');
+    write(' * Environment: static build · fake API shim', 'muted');
     await wait(90);
-    writeHTML(` * Running on <a href="/live" data-live>http://${host}:${port}</a>  (Press CTRL+C to quit)`, 'muted');
+    writeHTML(` * Running on <a href="/live" data-live>${url}</a>  (Press CTRL+C to quit)`, 'muted');
     await wait(140);
-    write(' ✔ resume compiled from content/ in 412 ms', 'ok');
+    write(' ✔ resume compiled from content files in 120 ms', 'ok');
     write();
     await wait(120);
 

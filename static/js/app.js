@@ -208,7 +208,7 @@
         <svg viewBox="0 0 16 16"><path d="M3 1.5h6L13 5.5v9H3z"/><path d="M9 1.5v4h4"/><path d="M5.5 8.5h5M5.5 11h3.5"/></svg>
         Open the full resume
       </a>
-      <p class="rail-foot">Served by Flask on port ${window.CONFIG.port}</p>`;
+        <p class="rail-foot">Served by static portfolio API shim.</p>`;
   }
 
   /* ── side views ──────────────────────────────────────────────────────── */
@@ -459,13 +459,12 @@
 
   function bootError(err) {
     document.getElementById('splash')?.remove();
-    $('#breadcrumbs').innerHTML = '<span class="sep">backend unreachable</span>';
+    $('#breadcrumbs').innerHTML = '<span class="sep">static api unreachable</span>';
     $('#code').innerHTML =
       `<span class="line"><span class="t-com"># The workbench could not reach the API.</span></span>` +
       `<span class="line"><span class="t-com"># ${esc(String(err))}</span></span>` +
       `<span class="line"> </span>` +
-      `<span class="line"><span class="t-kw">pip</span> install -r requirements.txt</span>` +
-      `<span class="line"><span class="t-kw">python</span> app.py</span>`;
+      `<span class="line"><span class="t-kw">refresh</span> ./index.html</span>`;
   }
 
   /* ── boot ────────────────────────────────────────────────────────────── */
