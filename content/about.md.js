@@ -5,32 +5,37 @@ PORTFOLIO.file({
   open: true,          // opens in a tab on load
   content: `# Sumukh Teja Vanamala
 
-**Backend Engineer** — Hyderabad, India
+## Backend & Cloud Engineer
 
-4+ years of software engineering experience building end to end:
-event-driven serverless AWS infrastructure, RAG and LLM pipelines,
-and data scraping and automation systems.
+Senior Developer at **Girgit Inc**, working across backend, cloud and AI
+end to end. Ex-Accenture. Based in Hyderabad, India.
 
-## What I do
+> Open to backend and cloud roles — on-site, hybrid or remote.
 
-- Design event-driven serverless backends on AWS — Lambda, API Gateway,
-  DynamoDB, S3, Cognito, decoupled with SQS and SNS fan-out
-- Build RAG pipelines over large document corpora with FAISS,
-  Neo4j knowledge graphs and local LLMs via Ollama
-- Ship ingestion, scraping and content automation pipelines,
-  including TTS/STT and low-latency live voice agents
+## What I build
 
-## How I work
+- **Event-driven serverless AWS infrastructure** — Lambda, API Gateway,
+  DynamoDB, S3, Cognito and IAM, decoupled with SQS queues and SNS fan-out
+  for fault-tolerant asynchronous processing at scale
+- **RAG pipelines** over large document corpora with FAISS, Neo4j knowledge
+  graphs and local LLMs via Ollama, plus OCR and MCP servers exposing
+  custom tools to models
+- **Automation pipelines** — multi-source ingestion and scraping, TTS/STT
+  audio generation, and low-latency live voice agents
 
-> Own the design end to end, then instrument it so you can
-> prove it actually works in production.
+## How I got here
 
-CI/CD on GitHub Actions, automated testing, CloudWatch metrics and
-structured logging for latency, error rates and throughput.
+Started in mechanical engineering, moved into software at Accenture
+(C#/.NET, Oracle SQL, VBA), and have gone deeper into backend and cloud
+since. AWS Certified Solutions Architect – Associate and HashiCorp
+Terraform Associate certified; currently working through Stanford's
+Machine Learning Specialization.
+
+*I learn by building and shipping, not by reading theory.*
 
 ## Languages
 
-English · Hindi · Telugu
+English · Hindi · Telugu · French
 
 ## Elsewhere
 

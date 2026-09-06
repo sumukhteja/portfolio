@@ -10,11 +10,12 @@ PORTFOLIO.file({
     "start": "2023-08",
     "end": "present",
     "focus": "Python | AWS | Distributed Systems",
+    "summary": "Built event-driven AWS architecture, RAG pipelines and automation infrastructure end to end.",
     "highlights": [
-      "Owned high- and low-level design of an event-driven serverless backend from the ground up on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out so ingestion, processing and reporting scale and fail independently",
+      "Designed and built from scratch the event-driven serverless backbone of an early-stage product on Lambda, API Gateway, DynamoDB, S3, Cognito and IAM, decoupling services with SQS queues and SNS fan-out for fault-tolerant, asynchronous processing at scale",
       "Built RAG pipelines over a large document corpus using FAISS, Neo4j knowledge graphs and local LLMs via Ollama, with OCR and MCP servers exposing custom tools to models",
-      "Built multi-source ingestion, scraping and content automation pipelines, plus TTS/STT audio generation including low-latency live voice agents",
-      "Drove code quality through automated testing and CI/CD on GitHub Actions, and instrumented CloudWatch metrics and structured logging for latency, error rates and throughput to tune performance"
+      "Built content and data automation pipelines covering multi-source ingestion and scraping, and audio generation with TTS and STT, including low-latency live voice agents",
+      "Drove code quality through automated testing and CI/CD on GitHub Actions, and instrumented CloudWatch metrics and structured logging for latency, error rates and throughput"
     ]
   },
   {
@@ -24,9 +25,10 @@ PORTFOLIO.file({
     "start": "2023-06",
     "end": "2023-07",
     "focus": "Python | Flask | pandas | AWS",
+    "summary": "Built a full-stack PO processing tool handling ~100 purchase orders a week, cutting ~20 hours of manual data entry a week.",
     "highlights": [
-      "Built a full-stack PO processing tool handling ~100 purchase orders a week: Flask REST API with pdfplumber extracting line items, pricing and HSN codes from PO PDFs to CSV",
-      "Deployed on S3/CloudFront with a Lambda + API Gateway backend, cutting ~20 hours of manual data entry a week"
+      "Flask REST API with pdfplumber extracting line items, pricing and HSN codes from PO PDFs to structured CSV, with ZIP-based bulk download and error handling for invalid files and parsing failures",
+      "Deployed the frontend on S3 with CloudFront and the backend on Lambda behind API Gateway, configuring CORS policies and environment-based API URL management"
     ]
   },
   {
@@ -35,12 +37,12 @@ PORTFOLIO.file({
     "location": "Hyderabad",
     "start": "2022-01",
     "end": "2023-04",
-    "focus": ".NET | C# | Oracle SQL",
+    "focus": ".NET | C# | Oracle SQL | VBA",
+    "summary": "Maintained and enhanced a C#/.NET Framework WinForms desktop application supporting policy and claims workflows for a Fortune 500 specialty insurer.",
     "highlights": [
-      "Maintained and enhanced a C#/.NET Framework WinForms application supporting policy and claims workflows for a Fortune 500 specialty insurer",
-      "Performed RCA on production defects across the .NET front end and Oracle data layer in an Agile/Scrum model through to UAT and release",
+      "Performed RCA on production defects across the .NET front end and Oracle data layer, delivering changes in an Agile/Scrum model and collaborating with QA and business analysts through to UAT and release",
       "Wrote and optimized Oracle SQL queries and PL/SQL stored procedures across large policy tables",
-      "Built Excel reporting and reconciliation tools with VBA and Power Query, saving ~2 hours of manual effort daily"
+      "Built Excel-based reporting and reconciliation tools using VBA macros and Power Query, saving ~2 hours of manual effort daily"
     ]
   }
 ]
