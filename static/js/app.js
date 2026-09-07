@@ -347,6 +347,63 @@
     window.addEventListener('resize', () => setHeight(panel.offsetHeight || DEFAULT));
   })();
 
+  /* ── explorer width ──────────────────────────────────────────────────── */
+
+  (() => {
+    const sash = $('#sash');
+    const workbench = $('.workbench');
+    if (!sash || !workbench) return;
+
+    const MIN = 170;
+    const DEFAULT = 262;
+    const max = () => Math.max(MIN, Math.min(560, window.innerWidth - 420));
+
+    const setWidth = (px) => {
+      const clamped = Math.round(Math.min(Math.max(px, MIN), max()));
+      workbench.style.setProperty('--w-sidebar', clamped + 'px');
+      try { localStorage.setItem('sidebarWidth', clamped); } catch (_) { /* private mode */ }
+    };
+
+    try {
+      setWidth(+localStorage.getItem('sidebarWidth') || DEFAULT);
+    } catch (_) {
+      setWidth(DEFAULT);
+    }
+
+    sash.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      sash.setPointerCapture(e.pointerId);
+      sash.classList.add('dragging');
+      document.body.classList.add('col-resizing');
+    });
+
+    sash.addEventListener('pointermove', (e) => {
+      if (!sash.hasPointerCapture(e.pointerId)) return;
+      // The sidebar starts where the activity bar ends.
+      setWidth(e.clientX - workbench.getBoundingClientRect().left - 48);
+    });
+
+    const end = (e) => {
+      if (sash.hasPointerCapture(e.pointerId)) sash.releasePointerCapture(e.pointerId);
+      sash.classList.remove('dragging');
+      document.body.classList.remove('col-resizing');
+    };
+    sash.addEventListener('pointerup', end);
+    sash.addEventListener('pointercancel', end);
+    sash.addEventListener('dblclick', () => setWidth(DEFAULT));
+
+    // Keyboard: the sash is focusable, so arrows should move it.
+    sash.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 40 : 10;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setWidth(sidebarWidth() - step); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); setWidth(sidebarWidth() + step); }
+    });
+    const sidebarWidth = () =>
+      parseInt(getComputedStyle(workbench).getPropertyValue('--w-sidebar'), 10) || DEFAULT;
+
+    window.addEventListener('resize', () => setWidth(sidebarWidth()));
+  })();
+
   /* ── Live Server ─────────────────────────────────────────────────────── */
 
   function goLive() {
@@ -435,7 +492,7 @@
     if (!splash) return () => {};
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const tick = reduced ? 40 : 140;
+    const tick = reduced ? 60 : 380;   // ~3.4s over eight steps
     let i = 0, timer;
 
     const finish = () => {
@@ -449,7 +506,7 @@
     timer = setInterval(() => {
       log.textContent = steps[i];
       fill.style.width = Math.round(((i + 1) / steps.length) * 100) + '%';
-      if (++i >= steps.length) setTimeout(finish, reduced ? 80 : 300);
+      if (++i >= steps.length) setTimeout(finish, reduced ? 100 : 520);
     }, tick);
 
     splash.addEventListener('click', finish);
@@ -473,9 +530,11 @@
     const done = runSplash([
       'Starting workspace…',
       'Loading extensions…',
+      'Mounting content/ …',
       'GET /api/content',
+      'Indexing 9 files',
       'Restoring editor state…',
-      `Live Server standing by on port ${window.CONFIG.port}`,
+      `Live Server standing by on port ${window.CONFIG.devPort || 8000}`,
       'Ready.',
     ]);
 

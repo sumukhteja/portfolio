@@ -3,16 +3,26 @@
   "tree": [
     {
       "folder": "backend",
-      "files": ["app.py", "routes.py", "models.py", "requirements.txt"]
+      "files": [
+        "app.py",
+        "routes.py",
+        "models.py",
+        "requirements.txt"
+      ]
     },
     {
       "folder": "frontend",
-      "files": ["index.html", "app.js", "styles.css"]
+      "files": [
+        "index.html",
+        "app.js",
+        "styles.css"
+      ]
     },
     {
       "folder": "",
       "files": [
         "about.md",
+        "case-studies.md",
         "experience.json",
         "projects.ts",
         "skills.json",

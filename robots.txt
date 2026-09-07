@@ -1,0 +1,9 @@
+# Crawl away. It's a résumé — being found is the entire point.
+
+User-agent: *
+Allow: /
+
+# The résumé, in case you'd rather skip the editor.
+# /resume.html
+
+# Humans: /humans.txt

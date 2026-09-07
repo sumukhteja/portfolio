@@ -91,10 +91,40 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round
 /* ── workbench frame ────────────────────────────────────────────────────── */
 
 .workbench {
+  position: relative;
   display: grid;
   grid-template-columns: var(--w-activity) var(--w-sidebar) minmax(0, 1fr);
   min-height: 0;
 }
+
+/* The sash: a wide grab target over a hairline, the way VS Code does it. */
+.sash {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--w-activity) + var(--w-sidebar) - 3px);
+  width: 7px;
+  z-index: 15;
+  cursor: col-resize;
+  touch-action: none;
+}
+.sash::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2px;
+  width: 2px;
+  background: transparent;
+  transition: background .12s ease .1s;
+}
+.sash:hover::after,
+.sash:focus-visible::after,
+.sash.dragging::after { background: var(--accent); transition-delay: 0s; }
+.sash:focus { outline: none; }
+
+body.col-resizing { cursor: col-resize; user-select: none; }
+body.col-resizing .editor, body.col-resizing .term { pointer-events: none; }
 
 /* ── activity bar ───────────────────────────────────────────────────────── */
 
@@ -551,6 +581,7 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
 .term-out a:hover { color: #6cb6ff; }
 
 .term-line { display: flex; align-items: baseline; flex-wrap: wrap; }
+.term-line::after { content: ""; flex: 1 1 auto; min-width: 0; }
 .prompt { white-space: pre; margin-right: 8px; }
 .p-user { color: #23d18b; font-weight: 700; }
 .p-at, .p-sep { color: var(--dim); }
@@ -558,8 +589,11 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
 .p-cwd { color: #3b8eea; font-weight: 700; }
 .p-arrow { color: var(--dim); margin-left: 6px; }
 .term-input {
-  flex: 1;
-  min-width: 40px;
+  /* Must shrink to its content: with flex:1 it filled the row and shoved the
+     block caret out to the right margin, away from the text being typed. */
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-width: 2px;
   outline: none;
   white-space: pre-wrap;
   word-break: break-word;
@@ -781,7 +815,8 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
   text-align: center;
   background: var(--bg);
   /* Safety net: if the script never runs, the splash still gets out of the way. */
-  animation: splashFail .5s ease 3.4s forwards;
+  /* Failsafe only — it must outlast the scripted sequence, never race it. */
+  animation: splashFail .5s ease 7s forwards;
 }
 .splash-inner {
   display: flex;

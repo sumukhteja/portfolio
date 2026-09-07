@@ -1,0 +1,29 @@
+/* TEAM */
+
+  Engineer, writer, person who kept moving the terminal three pixels: Sumukh Teja Vanamala
+  Contact: sumukh.teja.vanamala [at] outlook.com
+  Location: Hyderabad, India
+  Elsewhere: github.com/sumukhteja · linkedin.com/in/sumukhteja
+
+/* THANKS */
+
+  The VS Code team, for an interface so familiar it works as a layout.
+  Everyone who has ever left a useful comment on a five-year-old GitHub issue.
+  pdfplumber, for reading tables the way a human does.
+
+/* SITE */
+
+  Standards: HTML5, CSS custom properties, plain ES modules-free JavaScript
+  Components: none — no framework, no bundler, no build step worth the name
+  Fonts: Inter, JetBrains Mono, Source Serif 4
+  Icons: hand-written SVG, plus the real codicon chevron
+  Content: markdown and JSON in content/, read at runtime by both the
+           editor and the résumé — so the two can never disagree
+  Doctype: written by hand, like it's 2004 and that's a good thing
+
+/* NOTES */
+
+  The terminal is real in the sense that matters: it dispatches to an
+  allowlist of commands over the same files you can open in the editor.
+  It is not real in the sense that there is no shell behind it. That was
+  deliberate. Type `help`.

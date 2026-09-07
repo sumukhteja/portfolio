@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "mkdir -p dist/static dist/content && cp index.html _redirects dist/ && cp -R static/* dist/static/ && cp -R content/ dist/content/"
+    "build": "rm -rf dist && mkdir -p dist/static && cp index.html resume.html _redirects robots.txt humans.txt dist/ && cp -R static/. dist/static/ && cp -R content dist/content",
+    "dev": "python3 -m http.server 8000"
   }
 }

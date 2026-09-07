@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sumukh Teja — Portfolio Workspace</title>
-  <meta name="description" content="VS Code styled portfolio portfolio in a fake backend workspace.">
+  <meta name="description" content="Sumukh Teja Vanamala — backend engineer. Resume, projects and experience, served as the editor they were written in.">
   <link rel="icon" href="static/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,23 @@
   <link rel="stylesheet" href="static/css/workbench.css">
 </head>
 <body>
+
+<!--
+  ────────────────────────────────────────────────────────────────────────
+  Hello, View Source.
+
+  It's real files all the way down. The explorer reads content/manifest.json.
+  The editor renders the same markdown the résumé page does — one source, two
+  presentations, so nothing can drift out of sync. The terminal dispatches
+  against an allowlist: no eval, no shell, no surprises.
+
+  Nothing here is a screenshot.
+
+  You are, statistically, either a recruiter or a person who also enjoys
+  looking at other people's DOM. Either is fine.
+    → sumukh.teja.vanamala@outlook.com
+  ────────────────────────────────────────────────────────────────────────
+-->
 
   <div class="splash" id="splash" aria-hidden="true">
     <div class="splash-inner">
@@ -99,6 +116,10 @@
       </section>
     </aside>
 
+    <!-- Drag to resize the explorer; double-click to reset. -->
+    <div class="sash" id="sash" role="separator" aria-orientation="vertical"
+         aria-label="Resize sidebar" tabindex="0"></div>
+
     <main class="editor-area">
       <div class="tabs" id="tabs" role="tablist"></div>
       <div class="breadcrumbs" id="breadcrumbs"></div>
@@ -176,14 +197,17 @@
   </div>
 
   <script>
-    const portValue = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
     window.CONFIG = {
       host: window.location.hostname || 'localhost',
-      port: portValue,
+      port: window.location.port || (window.location.protocol === 'https:' ? '443' : '80'),
+      devPort: 8000,             // what the integrated terminal reports
       workspace: 'vscode-portfolio',
-      liveUrl: '/live'
+      // A file, not a pretty path, so it resolves the same on Pages,
+      // on a plain static server and from the filesystem.
+      liveUrl: 'resume.html'
     };
   </script>
+  <script src="static/js/hello.js"></script>
   <script src="static/js/vscode-bootstrap.js"></script>
   <script src="static/js/highlight.js"></script>
   <script src="static/js/terminal.js"></script>

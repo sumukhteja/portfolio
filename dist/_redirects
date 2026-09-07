@@ -1,2 +1,5 @@
-/live /index.html 200
-/resume /index.html 200
+# Pretty URLs for the résumé. The workbench links at resume.html directly, so
+# these only have to catch people who type or share the short paths.
+/live     /resume.html  200
+/resume   /resume.html  200
+/cv       /resume.html  200

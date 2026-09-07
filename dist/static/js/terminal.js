@@ -53,24 +53,24 @@ window.Terminal = (() => {
   /* ---------- boot banner ---------- */
 
   async function greet() {
-    const { host, port } = window.CONFIG;
-    const url = `//${host}${port && port !== '80' && port !== '443' ? `:${port}` : ''}/live`;
+    const port = window.CONFIG.devPort || 8000;
+    const origin = `http://127.0.0.1:${port}`;
 
-    writeEcho('static serve --root ./content');
+    writeEcho(`python -m http.server ${port}`);
     await wait(180);
-    write(' * Serving static portfolio workspace', 'muted');
+    write(`Serving HTTP on 127.0.0.1 port ${port} (${origin}/) ...`, 'muted');
+    await wait(110);
+    write(' * workspace: ~/vscode-portfolio', 'muted');
     await wait(90);
-    write(' * Environment: static build · fake API shim', 'muted');
-    await wait(90);
-    writeHTML(` * Running on <a href="/live" data-live>${url}</a>  (Press CTRL+C to quit)`, 'muted');
-    await wait(140);
-    write(' ✔ resume compiled from content files in 120 ms', 'ok');
+    write(' * mounted content/ — 9 files, watching for changes', 'muted');
+    await wait(150);
+    write(' ✔ resume rendered from content/ in 120 ms', 'ok');
     write();
     await wait(120);
 
     writeHTML(
       `<span class="hd">The resume is live.</span> Open it in full: ` +
-      `<a href="/live" data-live>${url}</a>`
+      `<a href="${window.CONFIG.liveUrl}" data-live>${origin}/live</a>`
     );
     write();
     writeHTML(

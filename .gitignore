@@ -5,3 +5,7 @@ __pycache__/
 *.pyc
 /data/messages.jsonl
 .DS_Store
+
+# Local Cloudflare/Wrangler cache
+.wrangler/
+node_modules/

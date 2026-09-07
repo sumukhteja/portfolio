@@ -217,7 +217,9 @@
         line('  skills          list groups from skills.json'),
         line('  contact         show contact details'),
         line('  clear           clear terminal'),
-        line('  golive          open portfolio page'),
+        line('  casestudies     open case-studies.md'),
+        line('  curl <path>     hit the local API, e.g. curl /api/health'),
+        line('  golive          open the résumé in a new tab'),
       ];
     }
 
@@ -232,6 +234,13 @@
       const target = resolveFile(args[0]);
       if (!target) return [line(`cat: ${args[0]}: No such file`, 'err')];
       return target.content.replace(/\n$/, '').split('\n').map((row) => line(row));
+    }
+
+    if (name === 'casestudies' || name === 'cases') {
+      const target = resolveFile('case-studies.md');
+      if (!target) return [line('casestudies: case-studies.md missing', 'err')];
+      if (window.Terminal?.hooks?.openFile) window.Terminal.hooks.openFile(target.path);
+      return [line('Opened case-studies.md in editor.', 'ok')];
     }
 
     if (name === 'open' || name === 'code') {
@@ -249,7 +258,7 @@
       return [
         line(contact?.name || 'Portfolio Owner', 'hd'),
         line(`${contact?.title || 'Portfolio'} · ${contact?.location || 'Location unavailable'}`, 'muted'),
-        line('Type golive to open full portfolio page.', 'muted'),
+        line('Type golive to open the full résumé.', 'muted'),
       ];
     }
 
