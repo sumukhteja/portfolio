@@ -178,10 +178,22 @@
     linkedin: 'LinkedIn', portfolio: 'Website', languages: 'Languages',
   };
 
+  /** Is this URL the page we are already on? (www. is not a difference.) */
+  function isCurrentSite(url) {
+    try {
+      const bare = (h) => h.replace(/^www\./, '');
+      return bare(new URL(url).hostname) === bare(window.location.hostname);
+    } catch (_) {
+      return false;
+    }
+  }
+
   function renderContactRail(p) {
     const initials = (p.name || 'You').split(/\s+/).slice(0, 2).map((w) => w[0]).join('');
     const rows = ['email', 'phone', 'location', 'github', 'linkedin', 'portfolio', 'languages']
       .filter((k) => p[k])
+      // No point advertising the site to someone already standing on it.
+      .filter((k) => !(k === 'portfolio' && isCurrentSite(p[k])))
       .map((k) => {
         const v = p[k];
         const href = /^https?:/.test(v) ? v
@@ -208,7 +220,7 @@
         <svg viewBox="0 0 16 16"><path d="M3 1.5h6L13 5.5v9H3z"/><path d="M9 1.5v4h4"/><path d="M5.5 8.5h5M5.5 11h3.5"/></svg>
         Open the full resume
       </a>
-        <p class="rail-foot">Served by static portfolio API shim.</p>`;
+        <p class="rail-foot">${state.files.length} files · content/</p>`;
   }
 
   /* ── side views ──────────────────────────────────────────────────────── */
@@ -281,7 +293,9 @@
 
   /* contact side view */
   function renderContactView(p) {
-    $('#contact-card').innerHTML = Object.entries(p).map(([k, v]) => {
+    $('#contact-card').innerHTML = Object.entries(p)
+      .filter(([k, v]) => !(k === 'portfolio' && isCurrentSite(v)))
+      .map(([k, v]) => {
       const href = /^https?:/.test(v) ? v : k === 'email' ? `mailto:${v}` : null;
       const body = href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(v)}</a>` : esc(v);
       return `<div class="card-row"><div class="card-key">${LABEL[k] || k}</div>
