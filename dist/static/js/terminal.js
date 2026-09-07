@@ -37,13 +37,42 @@ window.Terminal = (() => {
     return el;
   }
 
+  const PROMPT =
+    '<span class="p-user">visitor</span><span class="p-at">@</span>' +
+    '<span class="p-host">portfolio</span><span class="p-sep">:</span>' +
+    '<span class="p-cwd">~</span><span class="p-arrow"> $</span> ';
+
   function writeEcho(cmd) {
-    writeHTML(
-      `<span class="p-user">visitor</span><span class="p-at">@</span>` +
-      `<span class="p-host">portfolio</span><span class="p-sep">:</span>` +
-      `<span class="p-cwd">~</span><span class="p-arrow"> $</span> ` +
-      `<span class="echo">${esc(cmd)}</span>`
-    );
+    writeHTML(`${PROMPT}<span class="echo">${esc(cmd)}</span>`);
+  }
+
+  const reducedMotion = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /** Type text into a fresh line, one character at a time. */
+  async function typeLine(text, cls = '', speed = 24) {
+    const el = document.createElement('span');
+    el.className = 'l ' + cls;
+    out().appendChild(el);
+    if (reducedMotion()) { el.textContent = text; scroll(); return el; }
+    for (const ch of text) {
+      el.textContent += ch;
+      scroll();
+      await wait(speed);
+    }
+    return el;
+  }
+
+  /** Type a command after the prompt, the way a person would enter it. */
+  async function typeCommand(cmd, speed = 52) {
+    const el = writeHTML(`${PROMPT}<span class="echo"></span>`);
+    const target = el.querySelector('.echo');
+    if (reducedMotion()) { target.textContent = cmd; return; }
+    for (const ch of cmd) {
+      target.textContent += ch;
+      scroll();
+      await wait(speed);
+    }
   }
 
   const scroll = () => { view().scrollTop = view().scrollHeight; };
@@ -52,7 +81,35 @@ window.Terminal = (() => {
 
   /* ---------- boot banner ---------- */
 
-  async function greet() {
+  const isPhone = () => window.matchMedia('(max-width: 760px)').matches;
+
+  async function greet(profile = {}) {
+    return isPhone() ? greetPhone(profile) : greetDesktop();
+  }
+
+  /* On a phone there is no editor behind this, so the terminal introduces
+     itself and points at the buttons rather than reporting a boot. */
+  async function greetPhone(profile) {
+    const pause = (ms) => wait(reducedMotion() ? 0 : ms);
+
+    await typeCommand('whoami', 42);
+    await pause(240);
+
+    write(profile.name || 'Sumukh Teja Vanamala', 'hd');
+    write([profile.title, profile.location].filter(Boolean).join(' · '), 'muted');
+    write();
+    await pause(160);
+
+    await typeLine('Open to work — looking for my next role.', 'ok', 16);
+    await typeLine('AWS serverless, ML and retrieval pipelines.', '', 13);
+    write();
+    await pause(220);
+
+    await typeLine('↓  Tap a command below to look around.', 'hd', 20);
+    write();
+  }
+
+  async function greetDesktop() {
     const port = window.CONFIG.devPort || 8000;
     const origin = `http://127.0.0.1:${port}`;
 

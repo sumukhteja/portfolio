@@ -646,7 +646,7 @@
       return hit ? openFile(hit.path) : false;
     };
     Terminal.attach();
-    Terminal.greet();
+    Terminal.greet(profile);
 
     $('#golive').classList.add('pulse');
   }
