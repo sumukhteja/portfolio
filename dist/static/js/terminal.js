@@ -10,6 +10,7 @@ window.Terminal = (() => {
 
   const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const history = [];
+  let skipping = false;                 // set when someone would rather not wait
   let hIndex = 0;
   let busy = false;
 
@@ -54,12 +55,14 @@ window.Terminal = (() => {
     const el = document.createElement('span');
     el.className = 'l ' + cls;
     out().appendChild(el);
-    if (reducedMotion()) { el.textContent = text; scroll(); return el; }
+    if (reducedMotion() || skipping) { el.textContent = text; scroll(); return el; }
     for (const ch of text) {
+      if (skipping) { el.textContent = text; break; }
       el.textContent += ch;
       scroll();
       await wait(speed);
     }
+    scroll();
     return el;
   }
 
@@ -87,26 +90,27 @@ window.Terminal = (() => {
     return isPhone() ? greetPhone(profile) : greetDesktop();
   }
 
-  /* On a phone there is no editor behind this, so the terminal introduces
-     itself and points at the buttons rather than reporting a boot. */
+  /* On a phone there is no editor behind this, so it opens by saying hello
+     rather than by pretending a command was run. */
   async function greetPhone(profile) {
-    const pause = (ms) => wait(reducedMotion() ? 0 : ms);
+    const pause = (ms) => wait(reducedMotion() || skipping ? 0 : ms);
+    const full = profile.name || 'Sumukh Teja Vanamala';
+    const short = full.split(/\s+/).slice(0, 2).join(' ');
 
-    await typeCommand('whoami', 42);
+    await pause(220);
+    await typeLine(`Hi, I'm ${short}.`, 'hd', 42);
+    write();
+    await pause(260);
+
+    await typeLine([profile.title || 'Backend Engineer',
+                    profile.location || 'Hyderabad, India'].join(' — '), 'muted', 12);
+    await typeLine('Open to work, looking for my next role.', 'ok', 13);
+    write();
     await pause(240);
 
-    write(profile.name || 'Sumukh Teja Vanamala', 'hd');
-    write([profile.title, profile.location].filter(Boolean).join(' · '), 'muted');
+    await typeLine('Explore from below  ↓', 'hd', 30);
     write();
-    await pause(160);
-
-    await typeLine('Open to work — looking for my next role.', 'ok', 16);
-    await typeLine('AWS serverless, ML and retrieval pipelines.', '', 13);
-    write();
-    await pause(220);
-
-    await typeLine('↓  Tap a command below to look around.', 'hd', 20);
-    write();
+    skipping = false;
   }
 
   async function greetDesktop() {
@@ -277,5 +281,7 @@ window.Terminal = (() => {
 
   function focus() { input().focus(); caretToEnd(); }
 
-  return { attach, greet, run, write, writeHTML, clear, focus, hooks };
+  const skipIntro = () => { skipping = true; };
+
+  return { attach, greet, run, write, writeHTML, clear, focus, skipIntro, hooks };
 })();
