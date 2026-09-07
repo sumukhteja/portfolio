@@ -39,9 +39,7 @@ window.Terminal = (() => {
   }
 
   const PROMPT =
-    '<span class="p-user">visitor</span><span class="p-at">@</span>' +
-    '<span class="p-host">portfolio</span><span class="p-sep">:</span>' +
-    '<span class="p-cwd">~</span><span class="p-arrow"> $</span> ';
+    '<span class="p-path">C:\\Users\\teja</span><span class="p-arrow">&gt;</span> ';
 
   function writeEcho(cmd) {
     writeHTML(`${PROMPT}<span class="echo">${esc(cmd)}</span>`);
@@ -94,6 +92,9 @@ window.Terminal = (() => {
      rather than by pretending a command was run. */
   async function greetPhone(profile) {
     const pause = (ms) => wait(reducedMotion() || skipping ? 0 : ms);
+    // Keep the prompt and its blinking caret out of the way: during the intro
+    // they sit beside the text being typed and read as part of it.
+    view().classList.add('booting');
     const full = profile.name || 'Sumukh Teja Vanamala';
     const short = full.split(/\s+/).slice(0, 2).join(' ');
 
@@ -110,6 +111,8 @@ window.Terminal = (() => {
 
     await typeLine('Explore from below  ↓', 'hd', 30);
     write();
+
+    view().classList.remove('booting');
     skipping = false;
   }
 
@@ -121,7 +124,7 @@ window.Terminal = (() => {
     await wait(180);
     write(`Serving HTTP on 127.0.0.1 port ${port} (${origin}/) ...`, 'muted');
     await wait(110);
-    write(` * workspace: ~/${window.CONFIG.workspace}`, 'muted');
+    write(` * workspace: C:\\Users\\teja\\${window.CONFIG.workspace}`, 'muted');
     await wait(90);
     write(' * mounted content/ — 9 files, watching for changes', 'muted');
     await wait(150);
@@ -281,7 +284,10 @@ window.Terminal = (() => {
 
   function focus() { input().focus(); caretToEnd(); }
 
-  const skipIntro = () => { skipping = true; };
+  const skipIntro = () => {
+    skipping = true;
+    view()?.classList.remove('booting');
+  };
 
   return { attach, greet, run, write, writeHTML, clear, focus, skipIntro, hooks };
 })();

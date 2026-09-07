@@ -305,7 +305,8 @@
 
     if (name === 'clear' || name === 'cls') return [];
     if (name === 'date') return [line(new Date().toString())];
-    if (name === 'pwd') return [line(`~/${window.CONFIG?.workspace || 'portfolio'}`)];
+    if (name === 'pwd' || name === 'cd')
+      return [line(`C:\\Users\\teja\\${window.CONFIG?.workspace || 'portfolio'}`)];
     if (name === 'echo') return [line(args.join(' '))];
 
     return [line(`command not found: ${name}`, 'err'), line('Type help to see available commands.', 'muted')];

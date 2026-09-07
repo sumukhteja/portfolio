@@ -676,11 +676,9 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
 .term-line { display: flex; align-items: baseline; flex-wrap: wrap; }
 .term-line::after { content: ""; flex: 1 1 auto; min-width: 0; }
 .prompt { white-space: pre; margin-right: 8px; }
-.p-user { color: #23d18b; font-weight: 700; }
-.p-at, .p-sep { color: var(--dim); }
-.p-host { color: #23d18b; font-weight: 700; }
-.p-cwd { color: #3b8eea; font-weight: 700; }
-.p-arrow { color: var(--dim); margin-left: 6px; }
+/* cmd renders its prompt in the same ink as the output — no colour coding. */
+.p-path { color: var(--text); }
+.p-arrow { color: var(--text); }
 .term-input {
   /* Must shrink to its content: with flex:1 it filled the row and shoved the
      block caret out to the right margin, away from the text being typed. */
@@ -992,6 +990,9 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
 
   /* the caret should not chase a keyboard that is not open */
   .term-line { padding-bottom: 4px; }
+
+  /* While the intro types, the prompt is just noise beside it. */
+  .term.booting .term-line { display: none; }
 }
 
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
