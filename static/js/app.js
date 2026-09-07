@@ -41,7 +41,7 @@
       ? '<path d="M1.5 12.5V3.2A.7.7 0 0 1 2.2 2.5h3.4l1.6 1.8h4.6a.7.7 0 0 1 .7.7v1.5"/>' +
         '<path d="M1.5 12.5l1.9-5.3a.7.7 0 0 1 .66-.47h10.2a.5.5 0 0 1 .47.66l-1.6 4.6a.7.7 0 0 1-.66.5z"/>'
       : '<path d="M1.5 12.8V3.2a.7.7 0 0 1 .7-.7h3.4l1.6 1.8h6.1a.7.7 0 0 1 .7.7v7.8a.7.7 0 0 1-.7.7H2.2a.7.7 0 0 1-.7-.7z"/>';
-    return `<span class="fo ${FOLDER_TINT[name] || ''}"><svg viewBox="0 0 16 16">${body}</svg></span>`;
+    return `<span class="fo ${FOLDER_TINT[name] || ''}"><svg width="16" height="16" viewBox="0 0 16 16">${body}</svg></span>`;
   }
 
   /* ── explorer ────────────────────────────────────────────────────────── */

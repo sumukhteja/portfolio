@@ -2,18 +2,25 @@
 
 **Backend Engineer** — Hyderabad, India
 
-4+ years of software engineering experience building end to end:
-event-driven serverless AWS infrastructure, RAG and LLM pipelines,
-and data scraping and automation systems.
+**Open to work — looking for my next role.**
+
+I work across AWS serverless infrastructure, machine learning and applied AI:
+retrieval-augmented generation, local LLM inference, and the backends that put
+them in front of real users. Authentication that holds up, infrastructure
+defined as code, and automation that takes manual work out of a process.
 
 ## What I do
 
-- Design event-driven serverless backends on AWS — Lambda, API Gateway,
-  DynamoDB, S3, Cognito, decoupled with SQS and SNS fan-out
-- Build RAG pipelines over large document corpora with FAISS,
-  Neo4j knowledge graphs and local LLMs via Ollama
-- Ship ingestion, scraping and content automation pipelines,
-  including TTS/STT and low-latency live voice agents
+- Design serverless applications on AWS — Cognito, Lambda, API Gateway, S3
+  and CloudFront, with the stack defined as code in CloudFormation
+- Wire up authentication properly: Google OAuth through Cognito user pools,
+  JWT verification against JWKS, and per-user access scoping so data stays
+  private to the account that owns it
+- Build extraction and automation tooling that replaces manual data entry,
+  from PDF parsing through to a deployed frontend and API
+- Build RAG and ML pipelines — FAISS vector search over custom material,
+  local LLM inference with llama.cpp, and scikit-learn/pandas for the
+  modelling around them
 
 ## How I work
 
