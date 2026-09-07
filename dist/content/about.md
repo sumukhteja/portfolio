@@ -1,9 +1,5 @@
 # Sumukh Teja Vanamala
 
-**Backend Engineer** — Hyderabad, India
-
-**Open to work — looking for my next role.**
-
 I work across AWS serverless infrastructure, machine learning and applied AI:
 retrieval-augmented generation, local LLM inference, and the backends that put
 them in front of real users. Authentication that holds up, infrastructure

@@ -161,9 +161,10 @@
       p.linkedin && link(p.linkedin, strip(p.linkedin)),
     ].filter(Boolean).join('');
 
+    // No job title under the name: the masthead carries contact details, and
+    // the roles below say what the work is.
     return `<header class="masthead">
         <h1>${esc(p.name || '')}</h1>
-        ${p.title ? `<p class="role">${esc(p.title)}</p>` : ''}
         ${contact ? `<p class="meta">${contact}</p>` : ''}
         ${links ? `<p class="meta links">${links}</p>` : ''}
       </header>`;
