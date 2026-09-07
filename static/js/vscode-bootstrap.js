@@ -219,7 +219,7 @@
         line('  clear           clear terminal'),
         line('  casestudies     open case-studies.md'),
         line('  curl <path>     hit the local API, e.g. curl /api/health'),
-        line('  golive          open the résumé in a new tab'),
+        line('  teja            open the résumé in a new tab'),
       ];
     }
 
@@ -258,7 +258,7 @@
       return [
         line(contact?.name || 'Portfolio Owner', 'hd'),
         line(`${contact?.title || 'Portfolio'} · ${contact?.location || 'Location unavailable'}`, 'muted'),
-        line('Type golive to open the full résumé.', 'muted'),
+        line('Type teja to open the full résumé.', 'muted'),
       ];
     }
 
@@ -299,7 +299,7 @@
       return [line(`HTTP 404 · ${target} not implemented`, 'err')];
     }
 
-    if (name === 'golive' || name === 'resume' || name === 'live') {
+    if (['teja', 'golive', 'resume', 'live', 'cv'].includes(name)) {
       return [line(`Opening ${window.CONFIG?.liveUrl || '/'} …`, 'ok')];
     }
 

@@ -646,10 +646,6 @@
       const hit = state.files.find((f) => f.path === name || f.name === name);
       return hit ? openFile(hit.path) : false;
     };
-    // Tapping anywhere cuts the intro short rather than making people wait.
-    document.getElementById('term')
-      ?.addEventListener('pointerdown', () => Terminal.skipIntro(), { once: true });
-
     Terminal.attach();
     Terminal.greet(profile);
 

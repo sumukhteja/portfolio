@@ -130,14 +130,13 @@ window.Terminal = (() => {
     await wait(120);
 
     writeHTML(
-      `<span class="hd">The resume is live.</span> Open it in full: ` +
-      `<a href="${window.CONFIG.liveUrl}" data-live>${origin}/live</a>`
+      `<span class="hd">The résumé is live</span> at ` +
+      `<a href="${window.CONFIG.liveUrl}" data-live>${origin}/resume</a>`
     );
     write();
     writeHTML(
-      `Type <span class="kv">help</span> for commands, ` +
-      `<span class="kv">golive</span> to open the resume, or hit ` +
-      `<span class="kv">Go Live</span> in the status bar below.`,
+      `Type <span class="kv">teja</span> to open the résumé, or ` +
+      `<span class="kv">help</span> for everything else.`,
       'muted'
     );
     write();
@@ -158,9 +157,10 @@ window.Terminal = (() => {
 
     if (verb === 'clear' || verb === 'cls') { clear(); return; }
 
-    if (verb === 'golive' || verb === 'resume' || verb === 'live') {
-      write('Live Server is serving content/ on port ' + window.CONFIG.port + '.', 'ok');
-      writeHTML(`Opening <a href="/live" data-live>${window.CONFIG.liveUrl}</a> …`);
+    // `teja` is the one people are told about; the rest still work.
+    if (['teja', 'resume', 'cv', 'golive', 'live'].includes(verb)) {
+      write('Opening the résumé…', 'ok');
+      writeHTML(`<a href="${window.CONFIG.liveUrl}" data-live>${window.CONFIG.liveUrl}</a>`);
       write();
       hooks.goLive();
       return;
