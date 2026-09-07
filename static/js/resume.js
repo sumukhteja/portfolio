@@ -109,7 +109,8 @@
 
   const dateRange = (role) => {
     const from = prettyDate(role.start), to = prettyDate(role.end);
-    return from === to ? from : `${from} – ${to}`;
+    const span = from === to ? from : `${from} – ${to}`;
+    return role.duration ? `${span} · ${role.duration}` : span;
   };
 
   /** Pull the objects out of projects.ts without running it. */
@@ -175,8 +176,8 @@
           <h3>${esc(role.role)} <span class="at">·</span> <span class="org">${esc(role.company)}</span></h3>
           <span class="when">${esc(dateRange(role))}</span>
         </div>
-        <p class="sub">${esc(role.location || '')}${
-          role.focus ? `<span class="dot">·</span>${esc(role.focus)}` : ''}</p>
+        <p class="sub">${[role.type, role.location, role.focus].filter(Boolean)
+          .map(esc).join('<span class="dot">·</span>')}</p>
         <ul>${(ONE_PAGE ? (role.highlights || []).slice(0, MAX_HIGHLIGHTS) : (role.highlights || []))
           .map((h) => `<li>${esc(h)}</li>`).join('')}</ul>
       </article>`).join('');

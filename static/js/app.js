@@ -50,17 +50,19 @@
     const rows = [];
     for (const group of state.tree) {
       const folder = group.folder || '';
+      // Folders start collapsed: the résumé files sit at the root and should
+      // be what you see first, not the source that dresses the set.
       if (folder) {
         rows.push(
-          `<li class="folder depth-1 open" data-folder="${folder}">` +
-          `<span class="chev"></span>${folderIcon(folder)}${folder}</li>`
+          `<li class="folder depth-1" data-folder="${folder}">` +
+          `<span class="chev"></span>${folderIcon(folder, false)}${folder}</li>`
         );
       }
       for (const name of group.files || []) {
         const path = folder ? `${folder}/${name}` : name;
         if (!state.byPath[path]) continue;
         rows.push(
-          `<li class="file depth-${folder ? 2 : 1}" data-path="${path}">` +
+          `<li class="file depth-${folder ? 2 : 1}${folder ? ' hidden' : ''}" data-path="${path}">` +
           `${icon(name)}${name}</li>`
         );
       }
@@ -79,9 +81,22 @@
 
   /* ── tabs + editor ───────────────────────────────────────────────────── */
 
+  /** Expand a collapsed folder when something inside it is opened. */
+  function revealInTree(path) {
+    if (!path.includes('/')) return;
+    const folder = path.slice(0, path.indexOf('/'));
+    const row = document.querySelector(`#tree [data-folder="${folder}"]`);
+    if (!row || row.classList.contains('open')) return;
+    row.classList.add('open');
+    const glyph = row.querySelector('.fo');
+    if (glyph) glyph.outerHTML = folderIcon(folder, true);
+    for (const file of $$(`#tree [data-path^="${folder}/"]`)) file.classList.remove('hidden');
+  }
+
   function openFile(path, line) {
     const file = state.byPath[path];
     if (!file) return false;
+    revealInTree(path);
     if (!state.tabs.includes(path)) state.tabs.push(path);
     state.active = path;
     state.line = line || 1;
@@ -143,6 +158,8 @@
     const target = $(`#code .line[data-line="${state.line}"]`);
     if (state.line > 1 && target) target.scrollIntoView({ block: 'center' });
     else $('#editor').scrollTop = 0;
+
+    drawMinimap();
   }
 
   $('#code').addEventListener('click', (e) => {
@@ -155,73 +172,96 @@
     $('#st-pos').textContent = `Ln ${state.line}, Col 1`;
   });
 
-  /* ── contact rail (where the minimap would be) ───────────────────────── */
-
-  const CONTACT_ICON = {
-    email: 'M2 4.5h12v7H2z|M2 5l6 4 6-4',
-    phone: 'M4 2.5h2.5l1 3-1.6 1a8 8 0 0 0 3.6 3.6l1-1.6 3 1V13a1 1 0 0 1-1 1A10.5 10.5 0 0 1 3 3.5a1 1 0 0 1 1-1z',
-    location: 'M8 14s5-4.2 5-8A5 5 0 0 0 3 6c0 3.8 5 8 5 8z|M8 8.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z',
-    github: 'M6 13.5c-3 1-3-1.7-4.2-2M10.5 15v-2.6c0-.8-.2-1.3-.6-1.7 2.2-.2 4.4-1.1 4.4-4.8a3.7 3.7 0 0 0-1-2.6 3.5 3.5 0 0 0-.1-2.6s-.8-.3-2.7 1a9.2 9.2 0 0 0-4.8 0C3.8.3 3 .6 3 .6a3.5 3.5 0 0 0-.1 2.6 3.7 3.7 0 0 0-1 2.6c0 3.7 2.2 4.5 4.4 4.8-.3.3-.5.7-.6 1.2V15',
-    linkedin: 'M3.5 6.5v7M3.5 3.2v.1M7.5 13.5v-7M7.5 9.2a2.7 2.7 0 0 1 5.3 0v4.3',
-    portfolio: 'M8 14.5A6.5 6.5 0 1 0 8 1.5a6.5 6.5 0 0 0 0 13z|M1.5 8h13M8 1.5a10 10 0 0 1 0 13a10 10 0 0 1 0-13z',
-    languages: 'M2.5 4h7M6 2.5V4M7.5 4S7 9 3 11.5M4.5 7.5S6 10 9 11M9.5 13.5l3-7 3 7M10.6 11.4h3.8',
-  };
-
-  function svgFor(key) {
-    const d = CONTACT_ICON[key];
-    if (!d) return '';
-    return `<svg viewBox="0 0 16 16">${d.split('|').map((p) => `<path d="${p}"/>`).join('')}</svg>`;
-  }
-
   const LABEL = {
     email: 'Email', phone: 'Phone', location: 'Location', github: 'GitHub',
     linkedin: 'LinkedIn', portfolio: 'Website', languages: 'Languages',
   };
 
-  /** Is this URL the page we are already on? (www. is not a difference.) */
-  function isCurrentSite(url) {
-    try {
-      const bare = (h) => h.replace(/^www\./, '');
-      return bare(new URL(url).hostname) === bare(window.location.hostname);
-    } catch (_) {
-      return false;
-    }
+  /* ── minimap ─────────────────────────────────────────────────────────── */
+
+  /* Lines are drawn as blocks whose width tracks the text and whose colour
+     tracks the token — the same trick the real minimap uses to stay legible
+     at two pixels per line. */
+  const MINIMAP = {
+    lineHeight: 3,
+    charWidth: 0.62,
+    pad: 4,
+    colours: {
+      't-com': '#4f6b45', 't-str': '#7d5b4a', 't-kw': '#3f6d95',
+      't-num': '#6f7d59', 't-key': '#5f7f95', 't-fn': '#8a8a6a',
+      't-type': '#3f7d72', 't-h1': '#4a7bb0', 'default': '#5a5a5a',
+    },
+  };
+
+  function drawMinimap() {
+    const canvas = $('#minimap');
+    const file = state.byPath[state.active];
+    if (!canvas || !file) return;
+
+    const wrap = canvas.parentElement;
+    const height = wrap.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = 82 * dpr;
+    canvas.height = Math.max(height, 1) * dpr;
+    canvas.style.height = height + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, 82, height);
+
+    const lines = file.content.replace(/\n$/, '').split('\n');
+    const step = Math.min(MINIMAP.lineHeight, height / Math.max(lines.length, 1));
+
+    lines.forEach((line, i) => {
+      const y = i * step;
+      if (y > height) return;
+      const text = line.trimEnd();
+      if (!text.trim()) return;
+
+      const indent = line.length - line.trimStart().length;
+      // Colour the row by whatever token opens it.
+      const marked = Highlight.line(text.trim().slice(0, 4), file.lang);
+      const cls = (marked.match(/class="(t-[a-z0-9]+)"/) || [])[1];
+      ctx.fillStyle = MINIMAP.colours[cls] || MINIMAP.colours.default;
+
+      const x = MINIMAP.pad + indent * MINIMAP.charWidth;
+      const w = Math.min(text.trim().length * MINIMAP.charWidth, 82 - x - MINIMAP.pad);
+      if (w > 0) ctx.fillRect(x, y, w, Math.max(step - 0.6, 1));
+    });
+
+    canvas.dataset.step = step;
+    canvas.dataset.lines = lines.length;
+    syncMinimapView();
   }
 
-  function renderContactRail(p) {
-    const initials = (p.name || 'You').split(/\s+/).slice(0, 2).map((w) => w[0]).join('');
-    const rows = ['email', 'phone', 'location', 'github', 'linkedin', 'portfolio', 'languages']
-      .filter((k) => p[k])
-      // No point advertising the site to someone already standing on it.
-      .filter((k) => !(k === 'portfolio' && isCurrentSite(p[k])))
-      .map((k) => {
-        const v = p[k];
-        const href = /^https?:/.test(v) ? v
-          : k === 'email' ? `mailto:${v}`
-          : k === 'phone' ? `tel:${v.replace(/[^+\d]/g, '')}` : null;
-        const shown = /^https?:/.test(v) ? v.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') : v;
-        const body = href
-          ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(shown)}</a>`
-          : esc(shown);
-        return `<li><span class="ci">${svgFor(k)}</span>
-                  <span class="cv"><em>${LABEL[k]}</em>${body}</span></li>`;
-      }).join('');
+  /* The slider: which slice of the file the editor is actually showing. */
+  function syncMinimapView() {
+    const editor = $('#editor'), canvas = $('#minimap'), view = $('#minimap-view');
+    if (!editor || !view || !canvas) return;
+    const step = +canvas.dataset.step || 3;
+    const total = +canvas.dataset.lines || 1;
+    const full = step * total;
+    if (!editor.scrollHeight) return;
 
-    $('#minimap').innerHTML = `
-      <div class="rail-head">
-        <div class="avatar">${esc(initials)}</div>
-        <div>
-          <div class="rail-name">${esc(p.name || '')}</div>
-          <div class="rail-title">${esc(p.title || '')}</div>
-        </div>
-      </div>
-      <ul class="rail-list">${rows}</ul>
-      <a class="rail-cta" href="/live" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16"><path d="M3 1.5h6L13 5.5v9H3z"/><path d="M9 1.5v4h4"/><path d="M5.5 8.5h5M5.5 11h3.5"/></svg>
-        Open the full resume
-      </a>
-        <p class="rail-foot">${state.files.length} files · content/</p>`;
+    const ratio = editor.clientHeight / editor.scrollHeight;
+    const top = (editor.scrollTop / editor.scrollHeight) * full;
+    view.style.top = top + 'px';
+    view.style.height = Math.max(ratio * full, 12) + 'px';
+    view.style.opacity = ratio >= 1 ? '0' : '1';
   }
+
+  $('#editor').addEventListener('scroll', syncMinimapView, { passive: true });
+
+  // Click the minimap to jump there.
+  $('.minimap-wrap')?.addEventListener('click', (e) => {
+    const canvas = $('#minimap');
+    const step = +canvas.dataset.step || 3;
+    const line = Math.round((e.clientY - canvas.getBoundingClientRect().top) / step);
+    const target = $(`#code .line[data-line="${Math.max(line, 1)}"]`);
+    target?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+
+  window.addEventListener('resize', drawMinimap);
 
   /* ── side views ──────────────────────────────────────────────────────── */
 
@@ -572,8 +612,10 @@
 
     let profile = {};
     try { profile = await (await fetch('/api/profile')).json(); } catch (_) { /* rail stays empty */ }
-    renderContactRail(profile);
     renderContactView(profile);
+
+    const cta = $('#resume-cta');
+    if (cta) cta.href = window.CONFIG.liveUrl;
 
     Terminal.hooks.goLive = goLive;
     Terminal.hooks.openFile = (name) => {

@@ -1,81 +1,51 @@
 # Case studies
 
-Three problems worth writing down. Each one: what was wrong, what I tried,
-what broke, what shipped, and what it moved.
+Two problems worth writing down. Each one: what was wrong, what I tried,
+what broke, and what shipped.
 
 ---
 
-## Purchase orders that ate a working week
+## Keeping every student's photos private to them
 
-**Problem.** Flyberry Gourmet processed roughly 100 purchase orders a week by
-hand. Every PO arrived as a PDF; someone retyped line items, pricing and HSN
-codes into a spreadsheet before anything could be invoiced.
+**Problem.** All Kind Studio needed a web app where students enrol in pottery
+classes, track their progress and upload photos of their work. Studio staff
+needed to see everything; students needed to see only their own.
 
-**What I tried.** Straight text extraction first — pull the text layer out of
-the PDF and split it on whitespace.
+**What I tried.** One S3 bucket behind the API, with the backend checking who
+was asking before handing a file back.
 
-**What broke.** PO layouts were not consistent between suppliers. Column
-positions drifted, multi-line item descriptions collapsed into their
-neighbours, and HSN codes silently merged with the quantity beside them. Text
-order is not table structure.
+**What broke.** That puts the whole privacy guarantee in application code —
+every new endpoint is another place to get the check wrong, and a signed URL
+that leaks is valid for anyone who has it. Authorisation belonged lower down
+than the handler.
 
-**What I shipped.** A Flask REST API using `pdfplumber` to read the PDFs
-positionally — words grouped by their bounding boxes rather than by reading
-order, so a wrapped description stays one field. Output is a CSV that drops
-straight into the existing workflow. Deployed as a static front end on
-S3/CloudFront with a Lambda and API Gateway backend, so it costs nothing while
-idle.
-
-**Result.** ~100 POs a week processed without manual entry, cutting about
-**20 hours of data entry per week**.
-
----
-
-## A backend that could not fail in pieces
-
-**Problem.** Ingestion, processing and reporting at Girgit ran as one path.
-A slow or failing downstream step held up everything upstream of it, and load
-on one part meant scaling all of it.
-
-**What I tried.** Direct service-to-service calls behind API Gateway, with
-retries at the caller.
-
-**What broke.** Retries on a synchronous chain make a bad afternoon worse:
-a slow processing step turned into API Gateway timeouts, the caller retried,
-and the retries added load to the thing that was already struggling. Failure in
-one stage was indistinguishable from failure of the whole request.
-
-**What I shipped.** An event-driven design I owned from high- and low-level
-design through delivery: Lambda, API Gateway, DynamoDB, S3, Cognito and IAM,
-with SQS queues and SNS fan-out between stages. Each stage consumes at its own
-rate, retries against its own queue, and drains to a dead-letter queue instead
-of into the caller. CloudWatch metrics and structured logging cover latency,
-error rate and throughput per stage.
-
-**Result.** Ingestion, processing and reporting now scale and fail
-independently — a stalled consumer backs up its own queue and nothing else.
+**What I shipped.** A serverless app on Cognito, Lambda, API Gateway, S3 and
+CloudFront, with the whole stack defined as CloudFormation so environments
+are reproducible rather than clicked together. Google OAuth sign-in sits
+alongside email sign-up through a Cognito User Pool, so students get one-click
+login; admin roles and per-user prefixes scope S3 access to the identity
+itself, so a student's photos and data stay private to their account without
+the handler having to remember. On top of that, a community feed for sharing
+work and commenting, with S3-backed media and moderation tools for the studio.
 
 ---
 
-## Answers from a document corpus, with nothing leaving the machine
+## Purchase orders nobody should have to retype
 
-**Problem.** Questions needed answering out of a large document corpus, and
-the documents could not be shipped to a hosted model.
+**Problem.** Flyberry Gourmet received purchase orders as PDFs, and the line
+items, pricing, delivery locations and HSN codes were being typed out by hand
+before anything downstream could happen.
 
-**What I tried.** Plain vector search over page-level chunks, answer from the
-top hit.
+**What I tried.** Reading the PDF's text layer and splitting it on whitespace.
 
-**What broke.** Page-sized chunks retrieved the right document and the wrong
-paragraph, and a scanned page has no text layer at all — those documents were
-invisible to retrieval. Follow-up questions ("what about the second one?")
-retrieved nothing, because the question alone carried no context.
+**What broke.** Text order is not table structure. Supplier layouts differ,
+column positions drift, wrapped descriptions collapse into their neighbours,
+and codes merge with the number sitting beside them. The extraction has to
+understand position, not reading order.
 
-**What I shipped.** A retrieval pipeline running entirely locally: OCR so
-scanned pages are searchable, FAISS over smaller overlapping chunks, a Neo4j
-knowledge graph for relationships that embeddings miss, and local models
-through Ollama. Multi-turn conversation history feeds back into the prompt so
-follow-ups resolve. MCP servers expose the retrieval tools to the models
-directly.
-
-**Result.** Grounded answers over the full corpus, inference and documents
-both staying on local infrastructure.
+**What I shipped.** A full-stack document extraction tool that pulls line
+items, pricing, delivery locations and HSN codes straight out of PO PDFs,
+replacing the manual step entirely. The frontend runs on Cloudflare Pages and
+the backend on Lambda behind API Gateway, with CORS policies and
+environment-based API URL management so the same build points at the right
+backend per environment.
