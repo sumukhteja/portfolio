@@ -60,7 +60,7 @@ window.Terminal = (() => {
     await wait(180);
     write(`Serving HTTP on 127.0.0.1 port ${port} (${origin}/) ...`, 'muted');
     await wait(110);
-    write(' * workspace: ~/vscode-portfolio', 'muted');
+    write(` * workspace: ~/${window.CONFIG.workspace}`, 'muted');
     await wait(90);
     write(' * mounted content/ — 9 files, watching for changes', 'muted');
     await wait(150);

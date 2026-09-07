@@ -305,7 +305,7 @@
 
     if (name === 'clear' || name === 'cls') return [];
     if (name === 'date') return [line(new Date().toString())];
-    if (name === 'pwd') return [line('~/vscode-portfolio')];
+    if (name === 'pwd') return [line(`~/${window.CONFIG?.workspace || 'portfolio'}`)];
     if (name === 'echo') return [line(args.join(' '))];
 
     return [line(`command not found: ${name}`, 'err'), line('Type help to see available commands.', 'muted')];

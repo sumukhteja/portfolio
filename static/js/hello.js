@@ -13,5 +13,5 @@
   );
   console.log('%cTry the terminal below: %chelp%c, %ccasestudies%c, %ccurl /api/health',
     body, key, body, key, body, key);
-  console.log('%cSource: https://github.com/sumukhteja/vscode-portfolio', body);
+  console.log('%cSource: https://github.com/sumukhteja/portfolio', body);
 })();
