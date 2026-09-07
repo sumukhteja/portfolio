@@ -899,3 +899,99 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
   .splash-mark { font-size: 36px; }
   .splash-log { font-size: 10px; padding: 0 16px; word-break: break-all; }
 }
+
+/* ===========================================================================
+   Phones: the workbench is a desktop idea. A 48px activity bar, a sidebar, a
+   minimap and a code pane do not survive a 390px screen, so below 760px the
+   whole thing collapses to the one part that does work with thumbs — the
+   terminal, full height, driven by tappable commands.
+   =========================================================================== */
+
+.term-chips { display: none; }
+
+@media (max-width: 760px) {
+  /* everything that assumes a mouse and a wide screen */
+  .activitybar,
+  .sidebar,
+  .sash,
+  .tabstrip,
+  .breadcrumbs,
+  .editor-body,
+  .panel-resize,
+  .statusbar,
+  .callout { display: none !important; }
+
+  body { grid-template-rows: 38px minmax(0, 1fr); }
+
+  .titlebar { padding: 0 14px; gap: 10px; }
+  .tb-title { display: block; font-size: 12px; text-align: left; }
+  .tb-actions { display: none; }
+
+  .workbench { grid-template-columns: minmax(0, 1fr); }
+
+  /* the panel is the app now */
+  .editor-area { grid-template-rows: minmax(0, 1fr); }
+  .panel {
+    --panel-h: auto;
+    grid-row: 1;
+    height: 100%;
+    border-top: 0;
+    grid-template-rows: 34px minmax(0, 1fr) auto;
+  }
+  .panel.closed { display: grid; }        /* nothing to close it into */
+
+  .panel-tabs { padding: 0 14px; }
+  .ptab { display: none; }
+  .ptab.active { display: block; padding-left: 0; }
+  .panel-close { display: none; }
+  .shell-chip { font-size: 10.5px; }
+
+  .term {
+    padding: 8px 14px 4px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Typing on a phone is miserable, so the commands are buttons. */
+  .term-chips {
+    display: flex;
+    gap: 7px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: var(--chrome);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .term-chips::-webkit-scrollbar { display: none; }
+
+  .chip {
+    flex: none;
+    min-height: 34px;
+    padding: 0 13px;
+    border: 1px solid #3a3a3a;
+    border-radius: 17px;
+    background: #262626;
+    color: var(--text);
+    font: 500 12.5px var(--mono);
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .chip:active { background: #333; transform: scale(.97); }
+
+  .chip-go {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+  .chip-go:active { background: var(--accent-hi); }
+
+  /* the caret should not chase a keyboard that is not open */
+  .term-line { padding-bottom: 4px; }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .chip:active { transform: none; }
+}

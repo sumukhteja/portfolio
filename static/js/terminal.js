@@ -136,6 +136,11 @@ window.Terminal = (() => {
 
     view().addEventListener('mousedown', (e) => {
       if (e.target.tagName === 'A') return;
+      // On a phone the chips are the interface, and focusing the input throws
+      // the on-screen keyboard up over half the output. Only focus on a
+      // deliberate tap on the prompt line itself.
+      if (window.matchMedia('(max-width: 760px)').matches &&
+          !e.target.closest('.term-line')) return;
       setTimeout(() => focus(), 0);
     });
     view().addEventListener('focus', () => view().classList.remove('away'));

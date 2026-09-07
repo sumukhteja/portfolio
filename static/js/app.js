@@ -4,6 +4,7 @@
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const esc = Highlight.esc;
+  const isPhone = () => window.matchMedia('(max-width: 760px)').matches;
 
   const state = {
     files: [],
@@ -196,7 +197,7 @@
   function drawMinimap() {
     const canvas = $('#minimap');
     const file = state.byPath[state.active];
-    if (!canvas || !file) return;
+    if (!canvas || !file || isPhone()) return;
 
     const wrap = canvas.parentElement;
     const height = wrap.clientHeight;
@@ -346,6 +347,7 @@
   /* ── panel ───────────────────────────────────────────────────────────── */
 
   function setPanelOpen(open) {
+    if (isPhone()) return;
     $('#panel').classList.toggle('closed', !open);
     $('.editor-area').classList.toggle('no-panel', !open);
     if (open) Terminal.focus();
@@ -377,6 +379,7 @@
     // Pointer capture keeps the drag alive over the editor, the terminal
     // and outside the window — plain mousemove listeners lose it.
     grip.addEventListener('pointerdown', (e) => {
+      if (isPhone()) return;
       e.preventDefault();
       grip.setPointerCapture(e.pointerId);
       grip.classList.add('dragging');
@@ -482,6 +485,25 @@
     c.classList.add('gone');
     setTimeout(() => c.remove(), 400);
   }
+
+  /* ── terminal command chips (phones) ────────────────────────────────── */
+
+  (() => {
+    const bar = $('#term-chips');
+    if (!bar) return;
+
+    bar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+
+      if (chip.hasAttribute('data-open-resume')) { goLive(); return; }
+
+      const cmd = chip.dataset.cmd;
+      if (!cmd) return;
+      // Same path as typing it: the chips are a keyboard, not a second API.
+      Terminal.run(cmd);
+    });
+  })();
 
   /* ── quick open ──────────────────────────────────────────────────────── */
 
