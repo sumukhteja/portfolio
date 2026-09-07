@@ -910,46 +910,48 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
 .term-chips { display: none; }
 
 @media (max-width: 760px) {
-  /* everything that assumes a mouse and a wide screen */
+  /* Not a small editor — a terminal. Everything that exists to make this
+     look like VS Code goes, including the boot splash. */
+  .splash,
+  .titlebar,
   .activitybar,
   .sidebar,
   .sash,
   .tabstrip,
   .breadcrumbs,
   .editor-body,
+  .panel-tabs,
   .panel-resize,
   .statusbar,
   .callout { display: none !important; }
 
-  body { grid-template-rows: 38px minmax(0, 1fr); }
+  /* console black, not editor grey */
+  :root { --chrome: #0c0c0c; --bg: #0c0c0c; --border: #1e1e1e; }
 
-  .titlebar { padding: 0 14px; gap: 10px; }
-  .tb-title { display: block; font-size: 12px; text-align: left; }
-  .tb-actions { display: none; }
+  body {
+    grid-template-rows: minmax(0, 1fr);
+    background: #0c0c0c;
+  }
 
   .workbench { grid-template-columns: minmax(0, 1fr); }
 
-  /* the panel is the app now */
+  /* the terminal is the whole app now */
   .editor-area { grid-template-rows: minmax(0, 1fr); }
   .panel {
     --panel-h: auto;
     grid-row: 1;
     height: 100%;
     border-top: 0;
-    grid-template-rows: 34px minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
+    background: #0c0c0c;
   }
   .panel.closed { display: grid; }        /* nothing to close it into */
 
-  .panel-tabs { padding: 0 14px; }
-  .ptab { display: none; }
-  .ptab.active { display: block; padding-left: 0; }
-  .panel-close { display: none; }
-  .shell-chip { font-size: 10.5px; }
-
   .term {
-    padding: 8px 14px 4px;
+    padding: calc(12px + env(safe-area-inset-top)) 14px 4px;
     font-size: 12.5px;
     line-height: 1.6;
+    background: #0c0c0c;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -958,8 +960,8 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
     display: flex;
     gap: 7px;
     padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-    border-top: 1px solid var(--border);
-    background: var(--chrome);
+    border-top: 1px solid #232323;
+    background: #0c0c0c;
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -969,9 +971,9 @@ body.resizing .editor, body.resizing .term { pointer-events: none; }
     flex: none;
     min-height: 34px;
     padding: 0 13px;
-    border: 1px solid #3a3a3a;
+    border: 1px solid #333;
     border-radius: 17px;
-    background: #262626;
+    background: #1a1a1a;
     color: var(--text);
     font: 500 12.5px var(--mono);
     white-space: nowrap;

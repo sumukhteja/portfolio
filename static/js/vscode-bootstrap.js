@@ -311,9 +311,19 @@
     return [line(`command not found: ${name}`, 'err'), line('Type help to see available commands.', 'muted')];
   }
 
-  async function handleStaticExec(req) {
-    const body = await req.json().catch(() => ({ cmd: '' }));
-    const cmd = String(body.cmd || '').trim();
+  async function handleStaticExec(input) {
+    // This is a fetch *init* object, not a Request — it has a `body` string,
+    // not a .json() method. Calling .json() on it threw
+    // "json is not a function" and every command failed.
+    let payload = {};
+    try {
+      if (typeof input?.json === 'function') payload = await input.json();
+      else if (typeof input?.body === 'string') payload = JSON.parse(input.body);
+      else if (input?.body) payload = input.body;
+    } catch (_err) {
+      payload = {};
+    }
+    const cmd = String(payload.cmd || '').trim();
     return jsonResponse({ lines: runStaticCommand(cmd), cmd: cmd.split(' ')[0] });
   }
 

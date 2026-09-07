@@ -566,6 +566,7 @@
   function runSplash(steps) {
     const splash = $('#splash'), fill = $('#splash-fill'), log = $('#splash-log');
     if (!splash) return () => {};
+    if (isPhone()) { splash.remove(); return () => {}; }
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const tick = reduced ? 60 : 380;   // ~3.4s over eight steps
