@@ -333,6 +333,16 @@
     </div>`).join('');
 
   /* contact side view */
+  /** Is this URL the page we are already on? (www. is not a difference.) */
+  function isCurrentSite(url) {
+    try {
+      const bare = (h) => h.replace(/^www\./, '');
+      return bare(new URL(url).hostname) === bare(window.location.hostname);
+    } catch (_) {
+      return false;
+    }
+  }
+
   function renderContactView(p) {
     $('#contact-card').innerHTML = Object.entries(p)
       .filter(([k, v]) => !(k === 'portfolio' && isCurrentSite(v)))
@@ -594,6 +604,20 @@
 
   function bootError(err) {
     document.getElementById('splash')?.remove();
+    console.error('[portfolio] boot failed:', err);
+
+    // On a phone the editor pane is display:none, so writing the error there
+    // leaves a blank screen with no clue why. Say it in the terminal instead.
+    if (isPhone()) {
+      Terminal.write('Something went wrong loading this page.', 'err');
+      Terminal.write(String(err && err.message ? err.message : err), 'muted');
+      Terminal.write();
+      Terminal.write('The résumé is still available:', 'muted');
+      Terminal.writeHTML(
+        `<a href="${window.CONFIG.liveUrl}" data-live>${window.CONFIG.liveUrl}</a>`);
+      return;
+    }
+
     $('#breadcrumbs').innerHTML = '<span class="sep">static api unreachable</span>';
     $('#code').innerHTML =
       `<span class="line"><span class="t-com"># The workbench could not reach the API.</span></span>` +
@@ -635,8 +659,13 @@
     openFile(data.open || state.files[0]?.path);
 
     let profile = {};
-    try { profile = await (await fetch('/api/profile')).json(); } catch (_) { /* rail stays empty */ }
-    renderContactView(profile);
+    try { profile = await (await fetch('/api/profile')).json(); } catch (_) { /* card stays empty */ }
+
+    // Decorative panels are not worth the greeting: if one throws, log it and
+    // carry on to the terminal, which is the whole interface on a phone.
+    try { renderContactView(profile); } catch (err) {
+      console.error('[portfolio] contact view failed:', err);
+    }
 
     const cta = $('#resume-cta');
     if (cta) cta.href = window.CONFIG.liveUrl;
@@ -652,5 +681,5 @@
     $('#golive').classList.add('pulse');
   }
 
-  boot();
+  boot().catch(bootError);
 })();
