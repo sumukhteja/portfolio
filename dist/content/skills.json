@@ -1,16 +1,51 @@
 {
-  "languages": ["Python", "C#/.NET", "SQL (Oracle, PL/SQL)", "LaTeX"],
+  "languages": [
+    "Python",
+    "C#/.NET",
+    "SQL (Oracle, PL/SQL)",
+    "LaTeX"
+  ],
   "aws": [
-    "Lambda", "API Gateway", "DynamoDB", "S3", "SQS", "SNS",
-    "Cognito", "IAM", "CloudWatch", "ECS", "ECR"
+    "Lambda",
+    "API Gateway",
+    "DynamoDB",
+    "S3",
+    "SQS",
+    "SNS",
+    "Cognito",
+    "IAM",
+    "CloudWatch",
+    "ECS",
+    "ECR"
   ],
   "ai_ml": [
-    "FAISS", "Sentence Transformers", "RAG", "Ollama", "llama.cpp",
-    "Neo4j", "scikit-learn", "pandas", "OCR", "TTS/STT", "MCP servers"
+    "FAISS",
+    "Sentence Transformers",
+    "RAG",
+    "Ollama",
+    "llama.cpp",
+    "Neo4j",
+    "scikit-learn",
+    "pandas",
+    "OCR",
+    "TTS/STT",
+    "MCP servers"
   ],
   "backend_and_practices": [
-    "Flask", "Node.js", "REST APIs", "Terraform", "Docker",
-    "CI/CD (GitHub Actions)", "automated testing"
+    "Flask",
+    "Node.js",
+    "REST APIs",
+    "Docker",
+    "CI/CD (GitHub Actions)",
+    "automated testing"
   ],
-  "tools": ["Git", "GitHub", "VS Code", "Postman", "Jira", "ServiceNow", "Linux/Bash"]
+  "tools": [
+    "Git",
+    "GitHub",
+    "VS Code",
+    "Postman",
+    "Jira",
+    "ServiceNow",
+    "Linux/Bash"
+  ]
 }

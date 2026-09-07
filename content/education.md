@@ -13,7 +13,6 @@ Grade: **94.4%**
 # Certifications
 
 - **AWS Certified Solutions Architect – Associate (SAA-C03)** — 2026
-- **HashiCorp Certified: Terraform Associate** — 2026
-- **Machine Learning Specialization** — Stanford Online (Coursera), *ongoing*
+- **Machine Learning Specialization** — Stanford Online (Coursera)
 - **AI Agents Fundamentals** — Hugging Face
 - **Azure AI Fundamentals (AI-900)** — Microsoft, Jan 2023
