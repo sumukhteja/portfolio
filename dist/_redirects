@@ -1,5 +1,5 @@
-# Pretty URLs for the résumé. The workbench links at resume.html directly, so
-# these only have to catch people who type or share the short paths.
-/live     /resume.html  200
-/resume   /resume.html  200
-/cv       /resume.html  200
+# Cloudflare Pages already serves resume.html at the clean path /resume and
+# 308s /resume.html to it. Never add a rule pointing /resume back at the .html
+# file — the two redirects chase each other and the browser gives up.
+/live  /resume  301
+/cv    /resume  301
